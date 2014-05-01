@@ -38,7 +38,7 @@ def make_link(src, dst, options):
     if options.overwrite:
         if os.path.isfile(abs_dst):
             os.unlink(abs_dst)
-        if os.path.isfolder(abs_dst):
+        if os.path.isdir(abs_dst):
             shutil.rmtree(abs_dst)
     link_file   = abs_dst
     link_target = os.path.relpath(abs_src, dst_path)
