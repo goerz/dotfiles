@@ -54,7 +54,11 @@ def make_link(src, dst, options):
         if (os.path.realpath(abs_dst) == abs_src):
             if not options.quiet:
                 print "removing %s" % abs_dst
-            os.unlink(abs_dst)
+            try:
+                os.unlink(abs_dst)
+            except OSError as msg:
+                print "ERROR uninstalling %s: %s" % (abs_dst, msg)
+                return
     else:
         if (os.path.realpath(abs_dst) != abs_src):
             try:
@@ -63,7 +67,7 @@ def make_link(src, dst, options):
                 os.symlink(link_target, link_file)
             except OSError as msg:
                 print "ERROR %s -> %s: %s" % (link_file, link_target, msg)
-                raise
+                return
 
 
 def dot_link(options, files=None, exclude=None):
