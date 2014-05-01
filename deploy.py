@@ -6,22 +6,18 @@
 
 import sys
 import os
-from functools import partial
 
 # bootstrap code to get the dotfiles.py module from the master branch
 os.chdir(os.path.split(os.path.realpath(__file__))[0])
 os.system(r'git cat-file -p $(git ls-tree origin/master "dotfiles.py" | cut -d " " -f 3 | cut -f 1) > dotfiles.py')
 
-from dotfiles import make_link, git_update, run_duti, main, DOT
+from dotfiles import dot_link, run_duti, main
 
-def deploy(overwrite=False, quiet=False, uninstall=False):
-    """ Create all necessary symbolic links """
-    link = partial(make_link, overwrite=overwrite,
-                   quiet=quiet, uninstall=uninstall)
-    for file in ['ackrc', 'bashrc', 'git-completion.bash', 'gitconfig',
-                 'gitignore_global', 'grace', 'inputrc', 'screenrc',
-                 'tmux.conf', 'tmux-completion.sh']:
-        link(file, "%s%s" % (DOT, file))
-    run_duti(quiet)
+def deploy(options):
+    """ Routine to be called by dotfiles.main. It will be supplied the parsed
+        command line options
+    """
+    dot_link(options, exclude=['handlers.duti'])
+    run_duti(options.quiet)
 
 main(deploy)
