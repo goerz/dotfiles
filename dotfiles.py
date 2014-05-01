@@ -1,9 +1,10 @@
 #!/usr/bin/env python
+""" Utilitiy functions to deploy dotfiles """
+
 import os
 import sys
 import shutil
-from subprocess import call
-from os.path import join
+from subprocess import call, STDOUT
 from optparse import OptionParser
 
 
@@ -30,8 +31,8 @@ def make_link(src, dst, overwrite=False, quiet=False, uninstall=False):
         For every newly created link, a message will be printed to screen,
         unless 'quiet' is given als False
     """
-    abs_src = join(DOTFILES, src)
-    abs_dst = join(HOME, dst)
+    abs_src = os.path.join(DOTFILES, src)
+    abs_dst = os.path.join(HOME, dst)
     dst_path = os.path.split(abs_dst)[0]
     if overwrite:
         if os.path.isfile(abs_dst):
@@ -89,14 +90,14 @@ def git_update(folder=DOTFILES, quiet=False):
         cmd = [git, 'remote', 'update', '-p']
         if not quiet:
             print "In %s" % folder, ": ", " ".join(cmd)
-        ret = call(cmd, cwd=folder, stdout=stdout)
+        ret = call(cmd, cwd=folder, stderr=STDOUT, stdout=stdout)
         if ret != 0:
             if not quiet:
                 print "WARNING: git returned nonzero exist status (%s)"
         cmd = [git, 'merge', '--ff-only', '@{u}']
         if not quiet:
             print "In %s" % folder, ": ", " ".join(cmd)
-        ret = call(cmd, cwd=folder, stdout=stdout)
+        ret = call(cmd, cwd=folder, stderr=STDOUT, stdout=stdout)
         if ret != 0:
             if not quiet:
                 print "WARNING: git returned nonzero exist status (%s)"
@@ -111,7 +112,7 @@ def run_duti(quiet=False):
     """
     duti = which('duti')
     if duti is not None:
-        cmd = [duti, join(DOTFILES, "handlers.duti")]
+        cmd = [duti, os.path.join(DOTFILES, "handlers.duti")]
         if not quiet:
             print " ".join(cmd)
         ret = call(cmd)
