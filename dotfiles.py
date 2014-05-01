@@ -13,43 +13,43 @@ DOTFILES      = os.path.split(os.path.realpath(__file__))[0]
 DOT           = '.'
 
 
-def make_link(src, dst, overwrite=False, quiet=False, uninstall=False):
+def make_link(src, dst, options):
     """ Create a symbolic link pointing to src named dst.
 
         src is a path relative to DOTFILES
         dst is a path relative to HOME
 
-        If 'overwrite' is given as True and dst already exists, remove the
+        If options.overwrite is True and dst already exists, remove the
         existing file before creating the link.
 
-        If 'uninstall' is True, don't create any symbolic links, but remove
-        them if they exist.
+        If options.uninstall is True, don't create any symbolic links, but
+        remove them if they exist.
 
         If the dst already exists and is a symbolic link to src, the routine
         will exit silently.
 
         For every newly created link, a message will be printed to screen,
-        unless 'quiet' is given als False
+        unless options.quiet is given als False
     """
     abs_src = os.path.join(DOTFILES, src)
     abs_dst = os.path.join(HOME, dst)
     dst_path = os.path.split(abs_dst)[0]
-    if overwrite:
+    if options.overwrite:
         if os.path.isfile(abs_dst):
             os.unlink(abs_dst)
         if os.path.isfolder(abs_dst):
             shutil.rmtree(abs_dst)
     link_file   = abs_dst
     link_target = os.path.relpath(abs_src, dst_path)
-    if uninstall:
+    if options.uninstall:
         if (os.path.realpath(abs_dst) == abs_src):
-            if not quiet:
+            if not options.quiet:
                 print "removing %s" % abs_dst
             os.unlink(abs_dst)
     else:
         if (os.path.realpath(abs_dst) != abs_src):
             try:
-                if not quiet:
+                if not options.quiet:
                     print "%s -> %s" % (link_file, abs_src)
                 os.symlink(link_target, link_file)
             except OSError as msg:
@@ -140,6 +140,6 @@ def main(deploy, argv=None):
     options, args = arg_parser.parse_args(argv)
     try:
         git_update(folder=DOTFILES, quiet=options.quiet)
-        deploy(options.overwrite, options.quiet, options.uninstall)
+        deploy(options)
     except Exception as msg:
         print "ERROR: %s" % msg
