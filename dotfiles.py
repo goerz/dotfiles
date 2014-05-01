@@ -37,9 +37,17 @@ def make_link(src, dst, options):
     dst_path = os.path.split(abs_dst)[0]
     if options.overwrite:
         if os.path.isfile(abs_dst):
-            os.unlink(abs_dst)
+            try:
+                os.unlink(abs_dst)
+            except OSError as msg:
+                print "ERROR removing %s: %s" % (abs_dst, msg)
+                return
         if os.path.isdir(abs_dst):
-            shutil.rmtree(abs_dst)
+            try:
+                shutil.rmtree(abs_dst)
+            except OSError as msg:
+                print "ERROR removing %s: %s" % (abs_dst, msg)
+                return
     link_file   = abs_dst
     link_target = os.path.relpath(abs_src, dst_path)
     if options.uninstall:
@@ -174,12 +182,10 @@ def main(deploy, argv=None):
     arg_parser.add_option(
         '--uninstall', action='store_true', dest='uninstall',
         default=False, help="Remove any existing links to dotfiles")
-    options, args = arg_parser.parse_args(argv)
+    options = arg_parser.parse_args(argv)[0]
     try:
         git_update(folder=DOTFILES, quiet=options.quiet)
         deploy(options)
-    except Exception as msg:
-        print "ERROR: %s" % msg
     finally:
         # self-destruct
         # We wouldn't want to accidentally edit this script in a a 'system'
