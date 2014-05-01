@@ -1,9 +1,9 @@
 [user]
-	name = Michael Goerz
-	email = goerz@physik.uni-kassel.de
+    name = Michael Goerz
+    email = goerz@physik.uni-kassel.de
 [core]
     editor = vim
-	excludesfile = /Users/goerz/.gitignore_global
+    excludesfile = $HOME/.gitignore_global
 [alias]
      st = status
      ci = commit
@@ -14,10 +14,8 @@
      logv = log --name-status
      ls = ls-files
      serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
-     whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
-     whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
-	 up = "!git remote update -p; git merge --ff-only @{u}"
-
+     fetch = fetch -v
+     up = "!git remote update -p; git merge --ff-only @{u}"
 [color]
     ui = true
 [merge]
@@ -28,10 +26,10 @@
 [diff "pdf"]
   textconv = pdf2txt
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+    path = 
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+    cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    trustExitCode = true
 [push]
-	default = tracking
+    default = tracking
