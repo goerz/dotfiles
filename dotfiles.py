@@ -4,6 +4,7 @@
 import os
 import sys
 import shutil
+from glob import glob
 from subprocess import call, STDOUT
 from optparse import OptionParser
 
@@ -55,6 +56,38 @@ def make_link(src, dst, options):
             except OSError as msg:
                 print "ERROR %s -> %s: %s" % (link_file, link_target, msg)
                 raise
+
+
+def dot_link(options, files=None, exclude=None):
+    """ Run make_link for every file name in 'files' that is not also in
+        'exclude'. Both 'files' and 'exclude' must contain filenames relative
+        to the DOTFILES folder. A DOT is pre-pended to the link destination.
+
+        For example
+
+        >>> dot_link(['bashrc', ], exclude=[])
+
+        will call
+
+        make_link('bashrc', '.bashrc')
+
+        which crates a symlink ~/.bashrc, pointing to ~/.dotfiles/.bashrc,
+        assuming that DOTFILES is ~/.dotfiles
+
+        If 'files' is not specified (i.e., files is None), it is set to include
+        all files in DOTFILE. This should usually be used in conjuction with
+        exclude.
+
+        The options are passed to make_link
+    """
+    if files is None:
+        files = glob(os.path.join(DOTFILES, '*'))
+    if exclude is None:
+        exclude = []
+    for filename in files:
+        filename = os.path.basename(filename)
+        if not filename in exclude:
+            make_link(filename, DOT+filename, options)
 
 
 def which(program):
