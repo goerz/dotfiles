@@ -15,7 +15,9 @@ export PROC_IMAP_PROFILE=$HOME/.procimap/mailboxes.cfg
 export GNUTERM=wxt
 export WORKON_HOME=$HOME/.virtualenvs
 
-export DANIELB=uk001138
+# Note on ~/.MacOSX/environment.plist post Mountain Lion:
+# EnvPane (https://github.com/hschmidt/EnvPane) must be installed in order to
+# re-activate support for environment.plist
 
 source /opt/Modules/3.2.9/init/bash
 if type -t module > /dev/null; then
@@ -56,16 +58,10 @@ alias ssh-x='ssh -c arcfour,blowfish-cbc -XC'
 alias virtualenvwrapper='source /usr/local/bin/virtualenvwrapper.sh'
 alias mosh_bigboy='mosh --server="LD_LIBRARY_PATH=/home/goerz/local/lib /home/goerz/local/bin/mosh-server" bigboy'
 alias vimpure='vim --noplugin -u /dev/null -n'
-alias xmlog='xmgrace -log xy'
-alias xmlogy='xmgrace -log y'
-alias xmlogx='xmgrace -log x'
-alias xmbar='xmgrace -settype xydy'
-alias xmlogbar='xmgrace -log xy -settype xydy'
-alias xmlogybar='xmgrace -log y -settype xydy'
 alias sc='ssh_clipboard.py -c'
 alias sp='ssh_clipboard.py -p'
 
-# sudo pmset -a hibernatemode /n/. 
+# sudo pmset -a hibernatemode /n/.
 # 0 - Old style - just goes to sleep.
 # 1 - Only Hibernate
 # 3 - Default - goes to sleep but writes RAM contents to disk just in case.
@@ -113,13 +109,3 @@ if [ ! -z "$PS1" ]; then # interactive terminal
     PS1="\$(__module_ps1)$PS1"
 
 fi
-
-#set -o vi
-#bind -m vi-insert '\Control-l: clear-screen'
-#bind -m vi-insert '\Control-a: beginning-of-line'
-#bind -m vi-insert '\Control-e: end-of-line'
-#bind -m vi-insert '\Control-d: delete-char'
-#bind -m vi-command 'Control-a: vi-insert-beg'
-#bind -m vi-command 'Control-e: vi-append-eol'
-
-#xset -b # enabling this will fuck up Leopard
