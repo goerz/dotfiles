@@ -65,11 +65,11 @@ def dot_link(options, files=None, exclude=None):
 
         For example
 
-        >>> dot_link(['bashrc', ], exclude=[])
+            >>> dot_link(['bashrc', ], exclude=[])
 
         will call
 
-        make_link('bashrc', '.bashrc')
+            make_link('bashrc', '.bashrc')
 
         which crates a symlink ~/.bashrc, pointing to ~/.dotfiles/.bashrc,
         assuming that DOTFILES is ~/.dotfiles
@@ -78,12 +78,16 @@ def dot_link(options, files=None, exclude=None):
         all files in DOTFILE. This should usually be used in conjuction with
         exclude.
 
-        The options are passed to make_link
+        The 'exlude' array will automatically be expanded to include the files
+        'deploy.py', 'deploy.pyc', 'dotfiles.py', and 'dotfiles.pyc'.
+
+        The options are passed to the make_link routine directly
     """
     if files is None:
         files = glob(os.path.join(DOTFILES, '*'))
     if exclude is None:
         exclude = []
+    exclude += ['deploy.py', 'deploy.pyc', 'dotfiles.py', 'dotfiles.pyc']
     for filename in files:
         filename = os.path.basename(filename)
         if not filename in exclude:
