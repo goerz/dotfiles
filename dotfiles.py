@@ -91,13 +91,15 @@ def git_update(folder=DOTFILES, quiet=False):
             print "In %s" % folder, ": ", " ".join(cmd)
         ret = call(cmd, cwd=folder, stdout=stdout)
         if ret != 0:
-            raise OSError("git returned nonzero exist status (%s)" % ret)
+            if not quiet:
+                print "WARNING: git returned nonzero exist status (%s)"
         cmd = [git, 'merge', '--ff-only', '@{u}']
         if not quiet:
             print "In %s" % folder, ": ", " ".join(cmd)
         ret = call(cmd, cwd=folder, stdout=stdout)
         if ret != 0:
-            raise OSError("git returned nonzero exist status (%s)" % ret)
+            if not quiet:
+                print "WARNING: git returned nonzero exist status (%s)"
     else:
         if not quiet:
             print "WARNING: git is not available"
