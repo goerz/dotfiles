@@ -1,0 +1,49 @@
+####################
+# General Settings
+
+escape ^oo 
+
+shell -$SHELL
+term screen
+defutf8 on
+defflow off
+vbell off
+autodetach on
+startup_message off
+
+defscrollback 5000
+
+#change the hardstatus settings to give an window list at the bottom of the                                                                        
+#screen, with the time and date and with the current window highlighted                                                                            
+hardstatus alwayslastline                                                                                                                          
+hardstatus string '%{= wk}%-Lw%{= kW}[%50>%n%f* %t]%{= wk}%+Lw%< %{= wk}%-=%m/%d %c %H%{-}  '
+
+# captions should be on undistracting grey background as well.
+caption string '%{= wk}%t'
+
+# Run everything in UTF-8.
+defutf8 on
+
+#terminfo and termcap for nice 256 color terminal
+# allow bold colors - necessary for some reason
+#attrcolor b ".I"
+# tell screen how to set colors. AB = background, AF=foreground
+#termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+# erase background with current bg color
+defbce "on"
+
+# delete unsafe bindings
+bind s
+bind q
+bind L
+
+# new key bindings
+bind j focus down
+bind k focus up
+
+
+################
+# default windows
+
+#screen -t mutt 1 mutt
+#screen -t bash 0
