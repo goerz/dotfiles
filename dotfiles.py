@@ -36,13 +36,13 @@ def make_link(src, dst, options):
     abs_dst = os.path.join(HOME, dst)
     dst_path = os.path.split(abs_dst)[0]
     if options.overwrite:
-        if os.path.isfile(abs_dst):
+        if os.path.isfile(abs_dst) or os.path.islink(abs_dst):
             try:
                 os.unlink(abs_dst)
             except OSError as msg:
                 print "ERROR removing %s: %s" % (abs_dst, msg)
                 return
-        if os.path.isdir(abs_dst):
+        elif os.path.isdir(abs_dst):
             try:
                 shutil.rmtree(abs_dst)
             except OSError as msg:
