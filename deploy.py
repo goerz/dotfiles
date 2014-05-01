@@ -11,13 +11,14 @@ import os
 os.chdir(os.path.split(os.path.realpath(__file__))[0])
 os.system(r'git cat-file -p $(git ls-tree origin/master "dotfiles.py" | cut -d " " -f 3 | cut -f 1) > dotfiles.py')
 
-from dotfiles import dot_link, run_duti, main
+from dotfiles import dot_link, run_duti, deploy_vim, main
 
 def deploy(options):
     """ Routine to be called by dotfiles.main. It will be supplied the parsed
         command line options
     """
     dot_link(options, exclude=['handlers.duti'])
+    deploy_vim('git@github.com:goerz/vimrc.git', options)
     run_duti(options.quiet)
 
 main(deploy)
