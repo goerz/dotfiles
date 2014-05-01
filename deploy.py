@@ -24,6 +24,4 @@ def deploy(overwrite=False, quiet=False, uninstall=False):
         link(file, "%s%s" % (DOT, file))
     run_duti(quiet)
 
-
-if __name__ == "__main__":
-    sys.exit(main(deploy))
+main(deploy)
