@@ -1,0 +1,27 @@
+[user]
+    name = Michael Goerz
+    email = goerz@physik.uni-kassel.de
+[core]
+    editor = vim
+    excludesfile = $HOME/.gitignore_global
+[alias]
+     st = status
+     ci = commit
+     br = branch
+     co = checkout
+     df = diff
+     lg = log -p
+     logv = log --name-status
+     ls = ls-files
+     serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
+     fetch = fetch -v
+     up = "!git remote update -p; git merge --ff-only @{u}"
+[color]
+    ui = true
+[gui]
+    fontui = -family \"bitstream vera sans mono\" -size 9 -weight bold -slant roman -underline 0 -overstrike 0
+    spellingdictionary = none
+    fontdiff = -family \"bitstream vera sans mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
+    diffcontext = 99
+[push]
+    default = tracking

@@ -1,0 +1,24 @@
+# for vi mode
+set editing-mode vi
+$if mode=vi
+
+set keymap vi-command
+# these are for vi-command mode
+"\e[A": history-search-backward            # arrow up
+"\e[B": history-search-forward             # arrow down
+"\ep": yank-last-arg                       # bind to Alt-p
+"\C-k": kill-line
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+Control-l: clear-screen
+
+set keymap vi-insert
+# these are for vi-insert mode
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+"\ep": yank-last-arg
+"\C-k": kill-line
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+Control-l: clear-screen
+$endif

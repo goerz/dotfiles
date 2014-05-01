@@ -1,0 +1,5 @@
+--type-add=fortran:ext:f,f77,f90,f95,f03,for,ftn,fpp,F90,fi
+--color
+--color-lineno=bold blue
+--color-filename=green
+
