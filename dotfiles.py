@@ -176,3 +176,11 @@ def main(deploy, argv=None):
         deploy(options)
     except Exception as msg:
         print "ERROR: %s" % msg
+    finally:
+        # self-destruct
+        # We wouldn't want to accidentally edit this script in a a 'system'
+        # branch
+        try:
+            os.unlink(os.path.join(DOTFILES, 'dotfiles.py'))
+        except OSError:
+            pass
