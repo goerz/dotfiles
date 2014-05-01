@@ -136,10 +136,7 @@ def main(deploy, argv=None):
         default=False, help="Remove any existing links to dotfiles")
     options, args = arg_parser.parse_args(argv)
     try:
+        git_update(folder=DOTFILES, quiet=options.quiet)
         deploy(options.overwrite, options.quiet, options.uninstall)
     except Exception as msg:
         print "ERROR: %s" % msg
-        return 1
-    return 0
-
-
