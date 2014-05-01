@@ -128,6 +128,49 @@ def which(program):
     return None
 
 
+def deploy_vim(repo, options):
+    """ Deploy vimrc from the given git repository.
+
+        If ~/.vim does not exist already, the given repo will be cloned to
+        ~/.vim, and a symlink ~/.vimrc -> ~/.vim/vimrc will be created.
+
+        If ~/.vim does exist and is a git repository, it will be updated to the
+        latest revision.
+
+        If optins.overwrite is True, and ~/.vim/vimrc exists, any existing file
+        ~/.vimrc will be removed and be replaced with a symlink to ~/.vim/vimrc
+
+        The flag options.uninstall will only affect the file ~/.vimrc, the .vim
+        folder is never touched.
+    """
+    vimdir       = os.path.join(HOME,".vim")
+    vimrc        = os.path.join(HOME,".vimrc")
+    vimrc_target = os.path.join(vimdir,"vimrc")
+    stdout = None
+    if options.quiet:
+        stdout = open(os.devnull, 'w')
+    if (not os.path.exists(vimdir)):
+        cmd = ['git', 'clone', repo, vimdir]
+        if not options.quiet:
+            print " ".join(cmd)
+        ret = call(cmd, cwd=HOME, stderr=STDOUT, stdout=stdout)
+        if ret != 0:
+            if not options.quiet:
+                print "WARNING: git returned nonzero exist status (%s)"
+    if options.overwrite:
+        if os.path.isfile(vimrc) or os.path.islink(vimrc):
+            try:
+                os.unlink(vimrc)
+            except OSError as msg:
+                print "ERROR removing %s: %s" % (vimrc, msg)
+                return
+    if os.path.isfile(vimrc_target):
+        make_link(vimrc_target, vimrc, options)
+    else:
+        print "ERROR: missing file %s" % (vimrc)
+        return
+
+
 def git_update(folder=DOTFILES, quiet=False):
     """ Perform an update of the repository in the given folder """
     git = which('git')
