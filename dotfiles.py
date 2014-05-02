@@ -62,7 +62,7 @@ def make_link(src, dst, options):
                 print "ERROR uninstalling %s: %s" % (abs_dst, msg)
                 return
     else:
-        if (os.path.realpath(abs_dst) != abs_src):
+        if (os.path.realpath(abs_dst) != os.path.realpath(abs_src)):
             try:
                 if not options.quiet:
                     print "%s -> %s" % (link_file, abs_src)
