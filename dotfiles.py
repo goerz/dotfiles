@@ -2,11 +2,13 @@
 """ Utilitiy functions to deploy dotfiles """
 
 import os
+import stat
 import sys
 import shutil
 from glob import glob
 from subprocess import call, STDOUT
 from optparse import OptionParser
+from urllib import urlretrieve
 
 
 HOME          = os.environ['HOME']
@@ -171,6 +173,41 @@ def deploy_vim(repo, options):
         return
 
 
+def get(url, destination, options, make_exec=False):
+    """ Download the file at the given URL to destination. If make_exec is
+        True, also make it executable.
+
+        Unless options.overwrite is True, the file will only be downloaded if
+        destination does not exist already.
+
+        If options.uninstall is True, destination will be deleted if it exists.
+    """
+    if os.path.isfile(destination):
+        if (options.overwrite or options.uninstall):
+            if (options.uninstall and not options.quiet):
+                print "removing %s" % destination
+            try:
+                os.unlink(destination)
+            except OSError as msg:
+                print "ERROR removing %s: %s" % (destination, msg)
+                return
+            if (options.uninstall):
+                return
+        else:
+            return
+    if os.path.isdir(destination):
+        print "ERROR: %s is folder, must be file" % destination
+        return
+    if not options.quiet:
+        print "%s -> %s" % (url, destination)
+    urlretrieve(url, destination)
+    if make_exec:
+        perms = os.stat(destination)
+        # chmod a+x
+        os.chmod(destination, perms.st_mode
+                 |  stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+
+
 def git_update(folder=DOTFILES, quiet=False):
     """ Perform an update of the repository in the given folder """
     git = which('git')
@@ -215,8 +252,8 @@ def run_duti(quiet=False):
             print "WARNING: duti is not available"
 
 
-def main(deploy, argv=None):
-    """ Main function """
+def get_options(argv=None):
+    """ Parse command line options. return options object """
     if argv is None:
         argv = sys.argv
     arg_parser = OptionParser(usage="usage: %prog [options]")
@@ -229,7 +266,12 @@ def main(deploy, argv=None):
     arg_parser.add_option(
         '--uninstall', action='store_true', dest='uninstall',
         default=False, help="Remove any existing links to dotfiles")
-    options = arg_parser.parse_args(argv)[0]
+    return arg_parser.parse_args(argv)[0]
+
+
+def main(deploy, argv=None):
+    """ Main function """
+    options = get_options(argv)
     try:
         git_update(folder=DOTFILES, quiet=options.quiet)
         deploy(options)
