@@ -237,17 +237,15 @@ def git_update(folder=DOTFILES, quiet=False):
     if quiet:
         stdout = open(os.devnull, 'w')
     if git is not None:
+        if not quiet:
+            print "Updating %s" % folder
         os.chdir(folder)
         cmd = [git, 'remote', 'update', '-p']
-        if not quiet:
-            print "In %s" % folder, ": ", " ".join(cmd)
         ret = call(cmd, cwd=folder, stderr=STDOUT, stdout=stdout)
         if ret != 0:
             if not quiet:
                 print "WARNING: git returned nonzero exist status (%s)"
         cmd = [git, 'merge', '--ff-only', '@{u}']
-        if not quiet:
-            print "In %s" % folder, ": ", " ".join(cmd)
         ret = call(cmd, cwd=folder, stderr=STDOUT, stdout=stdout)
         if ret != 0:
             if not quiet:
