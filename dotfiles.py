@@ -159,6 +159,8 @@ def deploy_vim(repo, options):
         if ret != 0:
             if not options.quiet:
                 print "WARNING: git returned nonzero exist status (%s)"
+    else:
+        git_update(vimdir, options.quiet)
     if options.overwrite:
         if os.path.isfile(vimrc) or os.path.islink(vimrc):
             try:
