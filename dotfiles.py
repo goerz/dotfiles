@@ -174,14 +174,15 @@ def deploy_vim(repo, options):
 
 
 def get(url, destination, options, make_exec=False):
-    """ Download the file at the given URL to destination. If make_exec is
-        True, also make it executable.
+    """ Download the file at the given URL to destination (relative to HOME).
+        If make_exec is True, also make it executable.
 
         Unless options.overwrite is True, the file will only be downloaded if
         destination does not exist already.
 
         If options.uninstall is True, destination will be deleted if it exists.
     """
+    destination = os.path.join(HOME, destination)
     if os.path.isfile(destination):
         if (options.overwrite or options.uninstall):
             if (options.uninstall and not options.quiet):
