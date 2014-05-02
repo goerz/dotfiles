@@ -173,6 +173,26 @@ def deploy_vim(repo, options):
         return
 
 
+def mkdir(directory):
+    """ Recursive mkdir
+
+        If directory already exists, do nothing.
+        If directory cannot be created, raise OSError
+        If parent directories do not exist, make them as well
+    """
+    if os.path.isdir(directory):
+        pass
+    elif os.path.isfile(directory):
+        raise OSError("a file with the same name as the desired " \
+                       "dir, '%s', already exists." % directory)
+    else:
+        head, tail = os.path.split(directory)
+        if head and not os.path.isdir(head):
+            mkdir(head)
+        if tail:
+            os.mkdir(directory)
+
+
 def get(url, destination, options, make_exec=False):
     """ Download the file at the given URL to destination (relative to HOME).
         If make_exec is True, also make it executable.
@@ -183,6 +203,7 @@ def get(url, destination, options, make_exec=False):
         If options.uninstall is True, destination will be deleted if it exists.
     """
     destination = os.path.join(HOME, destination)
+    mkdir(os.path.split(destination)[0])
     if os.path.isfile(destination):
         if (options.overwrite or options.uninstall):
             if (options.uninstall and not options.quiet):
