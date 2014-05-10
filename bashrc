@@ -60,6 +60,7 @@ alias mosh_bigboy='mosh --server="LD_LIBRARY_PATH=/home/goerz/local/lib /home/go
 alias vimpure='vim --noplugin -u /dev/null -n'
 alias sc='ssh_clipboard.py -c'
 alias sp='ssh_clipboard.py -p'
+alias serve='python -m SimpleHTTPServer'
 
 # sudo pmset -a hibernatemode /n/.
 # 0 - Old style - just goes to sleep.
