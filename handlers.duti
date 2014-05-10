@@ -5,6 +5,7 @@ org.videolan.vlc                   avi                                viewer
 org.videolan.vlc                   mp4                                viewer
 org.videolan.vlc                   mkv                                viewer
 org.videolan.vlc                   wmv                                viewer
+org.videolan.vlc                   flv                                viewer
 org.videolan.vlc                   public.mpeg-4-audio                viewer
 org.videolan.vlc                   public.mpeg-4                      viewer
 org.videolan.vlc                   public.mpeg-2-video                viewer
@@ -29,6 +30,7 @@ org.videolan.vlc                   com.microsoft.windows-media-wm     viewer
 org.videolan.vlc                   com.microsoft.windows-media-wax    viewer
 org.videolan.vlc                   com.matroska.mkv                   viewer
 org.vim.MacVim                     txt                                all
+org.vim.MacVim                     dat                                all
 org.vim.MacVim                     markdown                           editor
 org.vim.MacVim                     f90                                editor
 org.vim.MacVim                     public.bash-script                 editor
@@ -45,5 +47,5 @@ org.vim.MacVim                     public.shell-script                editor
 org.vim.MacVim                     public.source-code                 editor
 org.vim.MacVim                     public.text                        editor
 org.vim.MacVim                     public.xml                         editor
-com.apple.Safari                   public.xhtml                       viewer
-com.apple.Safari                   public.html                        viewer
+com.apple.Safari                   public.xhtml                       all
+com.apple.Safari                   public.html                        all
