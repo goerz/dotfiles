@@ -30,7 +30,7 @@ def deploy(options):
         command line options
     """
     dot_link(options)
-    deploy_vim('git@github.com:goerz/vimrc.git', options)
+    deploy_vim('https://github.com/goerz/vimrc.git', options)
     get_scripts(options)
 
 main(deploy)
