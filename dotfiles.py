@@ -51,6 +51,7 @@ def make_link(src, dst, options):
                 print "ERROR removing %s: %s" % (abs_dst, msg)
                 return
     link_file   = abs_dst
+    mkdir(dst_path)
     link_target = os.path.relpath(abs_src, dst_path)
     if options.uninstall:
         if (os.path.realpath(abs_dst) == abs_src):
