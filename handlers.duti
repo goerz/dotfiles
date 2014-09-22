@@ -33,6 +33,8 @@ org.vim.MacVim                     txt                                all
 org.vim.MacVim                     dat                                all
 org.vim.MacVim                     markdown                           editor
 org.vim.MacVim                     f90                                editor
+org.vim.MacVim                     py                                 editor
+org.vim.MacVim                     ipynb                              editor
 org.vim.MacVim                     public.bash-script                 editor
 org.vim.MacVim                     public.c-header                    editor
 org.vim.MacVim                     public.c-source                    editor
