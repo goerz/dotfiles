@@ -175,7 +175,8 @@ def deploy_vim(repo, options):
         ~/.vimrc will be removed and be replaced with a symlink to ~/.vim/vimrc
 
         The flag options.uninstall will only affect the file ~/.vimrc, the .vim
-        folder is never touched.
+        folder is never touched. This is so that spell check files, buffers,
+        etc. don't get deleted accidentally
     """
     vimdir       = os.path.join(HOME,".vim")
     vimrc        = os.path.join(HOME,".vimrc")
