@@ -98,6 +98,15 @@ def test_get():
     assert os.path.isfile(target_file) and os.access(target_file, os.X_OK)
 
 
+#@nose.with_setup(clean_home, clean_home)
+def test_deploy_vim():
+    dotfiles.mkdir(os.path.join('test', 'HOME'))
+    dotfiles.deploy_vim('https://github.com/goerz/vimrc.git', DummyOptions())
+    assert os.path.isfile(os.path.join('test', 'HOME', '.vimrc'))
+    assert os.path.isdir(os.path.join('test', 'HOME', '.vim'))
+    assert os.path.isfile(os.path.join('test', 'HOME', '.vim', 'vimrc'))
+    # A second call should update the repository
+    dotfiles.deploy_vim('https://github.com/goerz/vimrc.git', DummyOptions())
 
 
 if __name__ == "__main__":
