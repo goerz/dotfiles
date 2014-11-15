@@ -114,6 +114,32 @@ def dot_link(options, files=None, exclude=None):
             make_link(filename, DOT+filename, options)
 
 
+def make_links(folder, options, recursive=True, target='.'):
+    """
+    For every file in the given folder, create a link inside the target folder
+
+    folder is the path of a folder, relative to DOTFILES.
+    target is the path of a folder in which to create the links, relative to
+           HOME
+    """
+    files = [os.path.join(DOTFILES, folder, file) for file in
+             os.listdir(os.path.join(DOTFILES, folder))]
+    for file in files: # file is relative to CWD
+        src = os.path.relpath(file, DOTFILES)
+        dst = os.path.relpath(file, os.path.join(DOTFILES, folder))
+        if target != '.':
+            dst = os.path.join(target, dst)
+        if os.path.isfile(file):
+            make_link(src, dst, options)
+        elif os.path.isdir(file):
+            if recursive:
+                make_links(src, options, recursive, dst)
+        else:
+            raise AssertionError("%s is neither a file nor a folder"
+                                 % full_file)
+
+
+
 def which(program):
     """ Return the absolute path of the given program, or None if the program
         is not available -- like Unix which utility)
