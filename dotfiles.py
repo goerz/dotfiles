@@ -33,44 +33,34 @@ def make_link(src, dst, options):
 
         For every newly created link, a message will be printed to screen,
         unless options.quiet is given als False
+
+        Raises OSError if an operation cannot be completed
     """
     abs_src = os.path.join(DOTFILES, src)
     abs_dst = os.path.join(HOME, dst)
     dst_path = os.path.split(abs_dst)[0]
-    if options.overwrite:
+    if options.overwrite and not options.uninstall:
         if os.path.isfile(abs_dst) or os.path.islink(abs_dst):
-            try:
-                os.unlink(abs_dst)
-            except OSError as msg:
-                print "ERROR removing %s: %s" % (abs_dst, msg)
-                return
+            os.unlink(abs_dst)
         elif os.path.isdir(abs_dst):
-            try:
+            if os.path.isdir(abs_src):
                 shutil.rmtree(abs_dst)
-            except OSError as msg:
-                print "ERROR removing %s: %s" % (abs_dst, msg)
-                return
+            else:
+                raise OSError("Existing directory %s " % abs_dst
+                            + "would be overwritten by file %s" % abs_src)
     link_file   = abs_dst
-    mkdir(dst_path)
     link_target = os.path.relpath(abs_src, dst_path)
     if options.uninstall:
-        if (os.path.realpath(abs_dst) == abs_src):
+        if (os.path.realpath(abs_dst) == os.path.realpath(abs_src)):
             if not options.quiet:
-                print "removing %s" % abs_dst
-            try:
-                os.unlink(abs_dst)
-            except OSError as msg:
-                print "ERROR uninstalling %s: %s" % (abs_dst, msg)
-                return
+                print("removing %s" % abs_dst)
+            os.unlink(abs_dst)
     else:
         if (os.path.realpath(abs_dst) != os.path.realpath(abs_src)):
-            try:
-                if not options.quiet:
-                    print "%s -> %s" % (link_file, abs_src)
-                os.symlink(link_target, link_file)
-            except OSError as msg:
-                print "ERROR %s -> %s: %s" % (link_file, link_target, msg)
-                return
+            if not options.quiet:
+                print("%s -> %s" % (link_file, abs_src))
+            mkdir(dst_path)
+            os.symlink(link_target, link_file)
 
 
 def dot_link(options, files=None, exclude=None):
@@ -155,11 +145,11 @@ def deploy_vim(repo, options):
     if (not os.path.exists(vimdir)):
         cmd = ['git', 'clone', repo, vimdir]
         if not options.quiet:
-            print " ".join(cmd)
+            print(" ".join(cmd))
         ret = call(cmd, cwd=HOME, stderr=STDOUT, stdout=stdout)
         if ret != 0:
             if not options.quiet:
-                print "WARNING: git returned nonzero exist status (%s)"
+                print("WARNING: git returned nonzero exist status (%s)")
     else:
         git_update(vimdir, options.quiet)
     if options.overwrite:
@@ -167,12 +157,12 @@ def deploy_vim(repo, options):
             try:
                 os.unlink(vimrc)
             except OSError as msg:
-                print "ERROR removing %s: %s" % (vimrc, msg)
+                print("ERROR removing %s: %s" % (vimrc, msg))
                 return
     if os.path.isfile(vimrc_target):
         make_link(vimrc_target, vimrc, options)
     else:
-        print "ERROR: missing file %s" % (vimrc)
+        print("ERROR: missing file %s" % (vimrc))
         return
 
 
