@@ -39,6 +39,7 @@ def test_make_link():
         out_fh.write("# .bashrc")
     try:
         dotfiles.make_link('.bashrc', '.bashrc', DummyOptions())
+        raise AssertionError("linking over existing proper file should fail")
     except OSError:
         pass
 
@@ -52,6 +53,7 @@ def test_make_link():
     dotfiles.mkdir(target_file)
     try:
         dotfiles.make_link('.bashrc', '.bashrc', DummyOptions(overwrite=True))
+        raise AssertionError("overwriting existing folder should fail")
     except OSError:
         pass
     shutil.rmtree(target_file)
@@ -83,6 +85,7 @@ def test_get():
     # Should fail if file already exists
     try:
         dotfiles.get(url, 'README', DummyOptions(), make_exec=False)
+        raise AssertionError("downloading over existing file should fail")
     except OSError:
         pass
 
