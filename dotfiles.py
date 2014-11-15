@@ -69,6 +69,12 @@ def make_link(src, dst, options):
             if not options.quiet:
                 print("%s -> %s" % (link_file, abs_src))
             mkdir(dst_path)
+            if os.path.isfile(link_file) and not options.quiet:
+                overwrite = raw_input(
+                            "%s already exists. Overwrite? yes/[no]: "
+                            % link_file)
+                if overwrite.lower().strip() == 'yes':
+                    os.unlink(link_file)
             os.symlink(link_target, link_file)
 
 
