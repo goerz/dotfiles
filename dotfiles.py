@@ -190,8 +190,8 @@ def get(url, destination, options, make_exec=False):
     """ Download the file at the given URL to destination (relative to HOME).
         If make_exec is True, also make it executable.
 
-        Unless options.overwrite is True, the file will only be downloaded if
-        destination does not exist already.
+        If the file already exists, an OSError will be raise, unless
+        options.overwrite is True.
 
         If options.uninstall is True, destination will be deleted if it exists.
     """
@@ -200,21 +200,16 @@ def get(url, destination, options, make_exec=False):
     if os.path.isfile(destination):
         if (options.overwrite or options.uninstall):
             if (options.uninstall and not options.quiet):
-                print "removing %s" % destination
-            try:
-                os.unlink(destination)
-            except OSError as msg:
-                print "ERROR removing %s: %s" % (destination, msg)
-                return
+                print("removing %s" % destination)
+            os.unlink(destination)
             if (options.uninstall):
                 return
         else:
-            return
+            raise OSError("File %s already exists" % destination)
     if os.path.isdir(destination):
-        print "ERROR: %s is folder, must be file" % destination
-        return
+        raise OSError("%s is folder, must be file" % destination)
     if not options.quiet:
-        print "%s -> %s" % (url, destination)
+        print("%s -> %s" % (url, destination))
     urlretrieve(url, destination)
     if make_exec:
         perms = os.stat(destination)
