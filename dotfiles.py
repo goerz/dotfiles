@@ -272,6 +272,26 @@ def run_duti(quiet=False, handlers='handlers.duti'):
             print("WARNING: duti is not available")
 
 
+def set_crontab(quiet=False, crontab_file='~/.crontab'):
+    """
+    Set the crontab to the given crontab_file
+    """
+    crontab = which('crontab')
+    crontab_file = os.path.expanduser(crontab_file)
+    if crontab is not None:
+        if os.path.isfile(crontab_file):
+            cmd = [crontab, crontab_file]
+        else:
+            print("%s not found: deactivating crontab" % crontab_file)
+            cmd = [crontab, '-r']
+        if not quiet:
+            print(" ".join(cmd))
+        ret = call(cmd)
+        if ret != 0:
+            raise OSError("crontab returned nonzero exist status (%s)" % ret)
+
+
+
 def get_options(argv=None):
     """ Parse command line options. return options object """
     if argv is None:
