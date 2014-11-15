@@ -253,13 +253,15 @@ def git_update(folder=DOTFILES, quiet=False):
             print("WARNING: git is not available")
 
 
-def run_duti(quiet=False):
+def run_duti(quiet=False, handlers='handlers.duti'):
     """ Run the duti utility, which sets up handlers for opening files on
         MacOS
+
+        The path to the handlers file is relative to DOTFILES
     """
     duti = which('duti')
     if duti is not None:
-        cmd = [duti, os.path.join(DOTFILES, "handlers.duti")]
+        cmd = [duti, os.path.join(DOTFILES, handlers)]
         if not quiet:
             print(" ".join(cmd))
         ret = call(cmd)
