@@ -226,21 +226,21 @@ def git_update(folder=DOTFILES, quiet=False):
         stdout = open(os.devnull, 'w')
     if git is not None:
         if not quiet:
-            print "Updating %s" % folder
+            print("Updating %s" % folder)
         os.chdir(folder)
         cmd = [git, 'remote', 'update', '-p']
         ret = call(cmd, cwd=folder, stderr=STDOUT, stdout=stdout)
         if ret != 0:
             if not quiet:
-                print "WARNING: git returned nonzero exist status (%s)"
+                print("WARNING: git returned nonzero exist status (%s)")
         cmd = [git, 'merge', '--ff-only', '@{u}']
         ret = call(cmd, cwd=folder, stderr=STDOUT, stdout=stdout)
         if ret != 0:
             if not quiet:
-                print "WARNING: git returned nonzero exist status (%s)"
+                print("WARNING: git returned nonzero exist status (%s)")
     else:
         if not quiet:
-            print "WARNING: git is not available"
+            print("WARNING: git is not available")
 
 
 def run_duti(quiet=False):
@@ -251,13 +251,13 @@ def run_duti(quiet=False):
     if duti is not None:
         cmd = [duti, os.path.join(DOTFILES, "handlers.duti")]
         if not quiet:
-            print " ".join(cmd)
+            print(" ".join(cmd))
         ret = call(cmd)
         if ret != 0:
             raise OSError("duti returned nonzero exist status (%s)" % ret)
     else:
         if not quiet:
-            print "WARNING: duti is not available"
+            print("WARNING: duti is not available")
 
 
 def get_options(argv=None):
