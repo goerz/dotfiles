@@ -143,7 +143,7 @@ def deploy_vim(repo, options):
     if options.quiet:
         stdout = open(os.devnull, 'w')
     if (not os.path.exists(vimdir)):
-        cmd = ['git', 'clone', repo, vimdir]
+        cmd = ['git', 'clone', repo, '.vim']
         if not options.quiet:
             print(" ".join(cmd))
         ret = call(cmd, cwd=HOME, stderr=STDOUT, stdout=stdout)
@@ -154,16 +154,12 @@ def deploy_vim(repo, options):
         git_update(vimdir, options.quiet)
     if options.overwrite:
         if os.path.isfile(vimrc) or os.path.islink(vimrc):
-            try:
-                os.unlink(vimrc)
-            except OSError as msg:
-                print("ERROR removing %s: %s" % (vimrc, msg))
-                return
+            os.unlink(vimrc)
     if os.path.isfile(vimrc_target):
-        make_link(vimrc_target, vimrc, options)
+        make_link(os.path.abspath(vimrc_target), os.path.abspath(vimrc),
+                  options)
     else:
-        print("ERROR: missing file %s" % (vimrc))
-        return
+        raise OSError("Missing file %s" % (vimrc))
 
 
 def mkdir(directory):
@@ -227,7 +223,6 @@ def git_update(folder=DOTFILES, quiet=False):
     if git is not None:
         if not quiet:
             print("Updating %s" % folder)
-        os.chdir(folder)
         cmd = [git, 'remote', 'update', '-p']
         ret = call(cmd, cwd=folder, stderr=STDOUT, stdout=stdout)
         if ret != 0:
