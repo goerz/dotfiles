@@ -26,7 +26,8 @@ def make_link(src, dst, options):
         existing file before creating the link.
 
         If options.uninstall is True, don't create any symbolic links, but
-        remove them if they exist.
+        remove them if they exist. Any empty folder that results from this will
+        also be deleted.
 
         If the dst already exists and is a symbolic link to src, the routine
         will exit silently.
@@ -55,6 +56,14 @@ def make_link(src, dst, options):
             if not options.quiet:
                 print("removing %s" % abs_dst)
             os.unlink(abs_dst)
+            # remove empty folder
+            try:
+                folder = os.path.split(abs_dst)[0]
+                while folder != '':
+                    os.rmdir(folder)
+                    folder = os.path.split(folder)[0]
+            except OSError:
+                pass # folder is not empty
     else:
         if (os.path.realpath(abs_dst) != os.path.realpath(abs_src)):
             if not options.quiet:
