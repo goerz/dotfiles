@@ -68,6 +68,13 @@ def make_link(src, dst, options):
         if (os.path.realpath(abs_dst) != os.path.realpath(abs_src)):
             if not options.quiet:
                 print("%s -> %s" % (link_file, abs_src))
+            if os.path.isfile(dst_path) and not options.quiet:
+                overwrite = raw_input(
+                            "%s already exists as a file. Overwrite with "
+                            "an empty folder? yes/[no]: "
+                            % dst_path)
+                if overwrite.lower().strip() == 'yes':
+                    os.unlink(dst_path)
             mkdir(dst_path)
             if os.path.isfile(link_file) and not options.quiet:
                 overwrite = raw_input(
