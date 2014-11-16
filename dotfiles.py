@@ -324,7 +324,7 @@ def set_crontab(quiet=False, crontab_file='~/.crontab'):
         if not quiet:
             print(" ".join(cmd))
         ret = call(cmd)
-        if ret != 0:
+        if os.path.isfile(crontab_file) and ret != 0:
             raise OSError("crontab returned nonzero exist status (%s)" % ret)
 
 
