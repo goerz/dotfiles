@@ -19,6 +19,6 @@ def deploy(options):
     dotfiles.make_links('HOME', options)
     dotfiles.deploy_vim('https://github.com/goerz/vimrc.git', options)
     dotfiles.run_duti(options.quiet)
-    dotfiles.set_crontab()
+    dotfiles.set_crontab(options.quiet)
 
 dotfiles.main(deploy)
