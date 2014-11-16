@@ -13,7 +13,6 @@ from urllib import urlretrieve
 
 HOME          = os.environ['HOME']
 DOTFILES      = os.path.split(os.path.realpath(__file__))[0]
-DOT           = '.'
 
 def is_file_or_link(file):
     return os.path.isfile(file) or os.path.islink(file)
@@ -86,42 +85,6 @@ def make_link(src, dst, options):
                 if overwrite.lower().strip() == 'yes':
                     os.unlink(link_file)
             os.symlink(link_target, link_file)
-
-
-def dot_link(options, files=None, exclude=None):
-    """ Run make_link for every file name in 'files' that is not also in
-        'exclude'. Both 'files' and 'exclude' must contain filenames relative
-        to the DOTFILES folder. A DOT is pre-pended to the link destination.
-
-        For example
-
-            >>> dot_link(['bashrc', ], exclude=[])
-
-        will call
-
-            make_link('bashrc', '.bashrc')
-
-        which crates a symlink ~/.bashrc, pointing to ~/.dotfiles/.bashrc,
-        assuming that DOTFILES is ~/.dotfiles
-
-        If 'files' is not specified (i.e., files is None), it is set to include
-        all files in DOTFILE. This should usually be used in conjuction with
-        exclude.
-
-        The 'exlude' array will automatically be expanded to include the files
-        'deploy.py', 'deploy.pyc', 'dotfiles.py', and 'dotfiles.pyc'.
-
-        The options are passed to the make_link routine directly
-    """
-    if files is None:
-        files = glob(os.path.join(DOTFILES, '*'))
-    if exclude is None:
-        exclude = []
-    exclude += ['deploy.py', 'deploy.pyc', 'dotfiles.py', 'dotfiles.pyc']
-    for filename in files:
-        filename = os.path.basename(filename)
-        if not filename in exclude:
-            make_link(filename, DOT+filename, options)
 
 
 def make_links(folder, options, recursive=True, target='.'):
