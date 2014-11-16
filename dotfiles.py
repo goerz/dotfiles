@@ -15,6 +15,9 @@ HOME          = os.environ['HOME']
 DOTFILES      = os.path.split(os.path.realpath(__file__))[0]
 DOT           = '.'
 
+def is_file_or_link(file):
+    return os.path.isfile(file) or os.path.islink(file)
+
 
 def make_link(src, dst, options):
     """ Create a symbolic link pointing to src named dst.
@@ -41,7 +44,7 @@ def make_link(src, dst, options):
     abs_dst = os.path.join(HOME, dst)
     dst_path = os.path.split(abs_dst)[0]
     if options.overwrite and not options.uninstall:
-        if os.path.isfile(abs_dst) or os.path.islink(abs_dst):
+        if is_file_or_link(abs_dst):
             os.unlink(abs_dst)
         elif os.path.isdir(abs_dst):
             if os.path.isdir(abs_src):
@@ -68,7 +71,7 @@ def make_link(src, dst, options):
         if (os.path.realpath(abs_dst) != os.path.realpath(abs_src)):
             if not options.quiet:
                 print("%s -> %s" % (link_file, abs_src))
-            if os.path.isfile(dst_path) and not options.quiet:
+            if is_file_or_link(dst_path) and not options.quiet:
                 overwrite = raw_input(
                             "%s already exists as a file. Overwrite with "
                             "an empty folder? yes/[no]: "
@@ -76,7 +79,7 @@ def make_link(src, dst, options):
                 if overwrite.lower().strip() == 'yes':
                     os.unlink(dst_path)
             mkdir(dst_path)
-            if os.path.isfile(link_file) and not options.quiet:
+            if is_file_or_link(link_file) and not options.quiet:
                 overwrite = raw_input(
                             "%s already exists. Overwrite? yes/[no]: "
                             % link_file)
@@ -202,7 +205,7 @@ def deploy_vim(repo, options):
     else:
         git_update(vimdir, options.quiet)
     if options.overwrite:
-        if os.path.isfile(vimrc) or os.path.islink(vimrc):
+        if is_file_or_link(vimrc):
             os.unlink(vimrc)
     if os.path.isfile(vimrc_target):
         make_link(os.path.abspath(vimrc_target), os.path.abspath(vimrc),
@@ -220,7 +223,7 @@ def mkdir(directory):
     """
     if os.path.isdir(directory):
         pass
-    elif os.path.isfile(directory):
+    elif is_file_or_link(directory):
         raise OSError("a file with the same name as the desired " \
                        "dir, '%s', already exists." % directory)
     else:
@@ -242,7 +245,7 @@ def get(url, destination, options, make_exec=False):
     """
     destination = os.path.join(HOME, destination)
     mkdir(os.path.split(destination)[0])
-    if os.path.isfile(destination):
+    if is_file_or_link(destination):
         if (options.overwrite or options.uninstall):
             if (options.uninstall and not options.quiet):
                 print("removing %s" % destination)
