@@ -8,6 +8,7 @@ import os
 
 # bootstrap code to get the dotfiles.py module from the master branch
 os.chdir(os.path.split(os.path.realpath(__file__))[0])
+os.system(r'rm -f *.pyc')
 os.system(r'git cat-file -p $(git ls-tree origin/master "dotfiles.py" | cut -d " " -f 3 | cut -f 1) > dotfiles.py')
 
 import dotfiles
