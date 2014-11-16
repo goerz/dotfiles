@@ -99,7 +99,6 @@ def test_make_link():
 
 @nose.with_setup(clean_home, clean_home)
 def test_get():
-    return # DEBUG
 
     dotfiles.HOME = join('test', 'HOME')
 
@@ -132,7 +131,6 @@ def test_deploy_vim():
     dotfiles.HOME = join('test', 'HOME')
     dotfiles.DOTFILES = join('test', 'DOTFILES')
 
-    return # DEBUG
     dotfiles.mkdir(dotfiles.HOME)
     dotfiles.deploy_vim('https://github.com/goerz/vimrc.git', DummyOptions())
     assert isfile(join(dotfiles.HOME, '.vimrc'))
