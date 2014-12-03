@@ -51,3 +51,4 @@ org.vim.MacVim                     public.text                        editor
 org.vim.MacVim                     public.xml                         editor
 com.apple.Safari                   public.xhtml                       all
 com.apple.Safari                   public.html                        all
+edu.ucsd.cs.mmccrack.bibdesk       bib                                all
