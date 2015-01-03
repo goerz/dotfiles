@@ -64,7 +64,7 @@ alias sp='ssh_clipboard.py -p'
 alias serve='python -m SimpleHTTPServer'
 alias keyboardoff='sudo kextunload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext/'
 alias keyboardon='sudo kextload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext'
-alias canopyenv='env PATH=/Volumes/HOME/goerz/Library/Enthought/Canopy_64bit/User/bin:$PATH MPLCONFIGDIR=/Volumes/HOME/goerz/.matplotlib.canopy'
+alias canopyenv='env PATH=$HOME/Library/Enthought/Canopy_64bit/User/bin:$PATH MPLCONFIGDIR=$HOME/.matplotlib.canopy'
 
 # sudo pmset -a hibernatemode /n/.
 # 0 - Old style - just goes to sleep.
