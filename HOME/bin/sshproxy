@@ -60,9 +60,10 @@ done
 # OPEN CONNECTION AND INITIATE SOCKS SERVER
 echo ""
 echo "INITIATING SSH CONNECTION AND SOCKS SERVER..."
-echo "========================================================="
+echo "connecting to: $SSHHOST"
+echo ""
 echo "TO DISCONNECT HIT Ctrl-C"
-echo "========================================================="
+echo ""
 echo ""
 ssh -C -ND $LOCALSOCKSPORT $SSHHOST
 
