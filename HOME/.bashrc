@@ -84,8 +84,6 @@ if [ ! -z "$PS1" ]; then # interactive terminal
     }
 
 
-    source $HOME/.tmux-completion.sh
-    source $HOME/.git-completion.bash
     if [ -f `brew --prefix`/etc/bash_completion ]; then
         . `brew --prefix`/etc/bash_completion
     fi
