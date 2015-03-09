@@ -67,8 +67,8 @@ if (IPython.CodeCell) {
 
 // Hide header and toolbar by default
 $([IPython.events]).on("app_initialized.NotebookApp", function () {
-        $('div#header').hide();
-            $('div#maintoolbar').hide();
+    $('div#header-container').hide();
+    $('div#maintoolbar').hide();
 });
 
 // Notebook extensions
