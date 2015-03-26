@@ -109,7 +109,7 @@ def make_links(folder, options, recursive=True, target='.'):
                 make_links(src, options, recursive, dst)
         else:
             raise AssertionError("%s is neither a file nor a folder"
-                                 % full_file)
+                                 % file)
 
 
 
