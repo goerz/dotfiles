@@ -48,18 +48,35 @@
  * @static
  */
 
- $([IPython.events]).on('app_initialized.NotebookApp', function(){
-     IPython.toolbar.add_buttons_group([
-         {
-              'label'   : 'run qtconsole',
-              'icon'    : 'icon-terminal', // select your icon from http://fortawesome.github.io/Font-Awesome/icons
-              'callback': function () {
-                  IPython.notebook.kernel.execute('%qtconsole')
-              }
-         }
-         // add more button here if needed.
-         ]);
- });
+var currenth1=0;
+ 
+function regentoc() {
+document.getElementById("toc").innerHTML = "";
+var currenth1 = 0;
+$("h1,h2").not(document.getElementById("toctitle")).each(function(mainIndex) {
+    el = $(this);
+    title = el.attr("id");
+    text = el.html();
+    link = "#" + el.attr("id");
+    if ( document.getElementById(title).tagName == "H1" ) {
+        currenth1 += 1;
+        newLine =
+            "<li class='maintoc'>" +
+                currenth1 + " " +
+                "<a href='" + link + "'>" + text + "</a>" +
+            "</li>" +
+            "<ul id='h1" + currenth1 + "'></ul>";
+        document.getElementById("toc").innerHTML += newLine;
+    } else if ( document.getElementById(title).tagName=="H2" ) {
+        h1list = document.getElementById("h1"+currenth1);
+        newLine = "<li class='subtoc'>" + "<a href='" + link + "'>" + text + "</a>" + "</li>";
+        h1list.innerHTML += newLine;
+    }
+});
+}
+ 
+setInterval(regentoc,1000);
+
 
 if (IPython.CodeCell) {
   IPython.CodeCell.options_default.cm_config.autoCloseBrackets = false;
