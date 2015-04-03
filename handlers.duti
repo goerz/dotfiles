@@ -3,6 +3,7 @@ com.apple.TextEdit                 rtf                                all
 net.sourceforge.skim-app.skim      pdf                                all
 org.videolan.vlc                   avi                                viewer
 org.videolan.vlc                   mp4                                viewer
+org.videolan.vlc                   m4v                                viewer
 org.videolan.vlc                   mkv                                viewer
 org.videolan.vlc                   wmv                                viewer
 org.videolan.vlc                   flv                                viewer
