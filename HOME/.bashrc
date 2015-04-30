@@ -111,4 +111,5 @@ if [ ! -z "$PS1" ]; then # interactive terminal
     }
     PS1="\$(__module_ps1)$PS1"
 
+    source .bash/copy.sh
 fi
