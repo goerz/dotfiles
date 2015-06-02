@@ -1,2 +1,4 @@
 *.pyc
 dotfiles.py
+.HOME.links
+.HOME.old_links
