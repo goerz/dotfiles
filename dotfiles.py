@@ -87,16 +87,39 @@ def make_link(src, dst, options):
             os.symlink(link_target, link_file)
 
 
-def make_links(folder, options, recursive=True, target='.'):
+def change_extension(filename, new_ext):
+    """Replace the extension in the given filename with new_ext"""
+    root, ext = os.path.splitext(filename)
+    if not new_ext.startswith('.'):
+        new_ext = '.' + new_ext
+    return root + new_ext
+
+
+def make_links(folder, options, recursive=True, target='.', log_fh=None):
     """
     For every file in the given folder, create a link inside the target folder
 
-    folder is the path of a folder, relative to DOTFILES.
-    target is the path of a folder in which to create the links, relative to
-           HOME
+    `folder` is the path of a folder, relative to DOTFILES.
+    `target` is the path of a folder in which to create the links, relative to
+             HOME
+    `options` are passed to the `make_link` routine
+    If `recursive` is True, links are also generated for all all subfolders of
+    `folder`
+
+    A list of all generated link destinations is written to the given `log_fh`.
+    If `log_fh` is None, a new file DOTFILES/.{folder}.links will be opened and
+    used for `log_fh`. If that file already exists, it will be overwritten; the
+    original file will be copied to have the 'old_links' extension.
     """
     files = [os.path.join(DOTFILES, folder, file) for file in
              os.listdir(os.path.join(DOTFILES, folder))]
+    if log_fh is None:
+        log_filename = os.path.join(DOTFILES, '.%s.links'
+                                    % folder.replace('/', '_'))
+        if os.path.isfile(log_filename):
+            os.rename(log_filename,
+                      change_extension(log_filename, 'old_links'))
+        log_fh = open(log_filename, 'w')
     for file in files: # file is relative to CWD
         src = os.path.relpath(file, DOTFILES)
         dst = os.path.relpath(file, os.path.join(DOTFILES, folder))
@@ -104,9 +127,11 @@ def make_links(folder, options, recursive=True, target='.'):
             dst = os.path.join(target, dst)
         if os.path.isfile(file):
             make_link(src, dst, options)
+            if not options.uninstall:
+                log_fh.write("%s\n" % os.path.abspath(os.path.join(HOME,dst)))
         elif os.path.isdir(file):
             if recursive:
-                make_links(src, options, recursive, dst)
+                make_links(src, options, recursive, dst, log_fh)
         else:
             raise AssertionError("%s is neither a file nor a folder"
                                  % file)
