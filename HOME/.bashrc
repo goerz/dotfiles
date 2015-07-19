@@ -83,6 +83,12 @@ if [ ! -z "$PS1" ]; then # interactive terminal
         perl -e "print scalar(localtime(${1})), \"\n\""
     }
 
+    function wifi-password()
+    # http://lifehacker.com/find-the-wi-fi-password-for-your-current-network-with-t-1717978747
+    {
+        security find-generic-password -ga ${1} | grep password
+    }
+
 
     if [ -f `brew --prefix`/etc/bash_completion ]; then
         . `brew --prefix`/etc/bash_completion
