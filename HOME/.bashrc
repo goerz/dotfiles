@@ -49,6 +49,7 @@ alias :make='make'
 alias :wq='exit'
 alias :q='exit'
 alias :e='vim'
+alias vim=nvim
 alias tm='tmux new-window'
 alias skim='open -a Skim'
 alias preview='open -a Preview'
