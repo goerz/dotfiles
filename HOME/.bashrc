@@ -4,7 +4,7 @@
 # A non-login interactive shell reads .bashrc (and inherits login variables)
 # A non-interative shell (e.g. running a shell script) reads only the file
 # given in $BASH_ENV, if defined.
-export PATH=$HOME/bin:$HOME/.cabal/bin:$HOME/anaconda/bin:/usr/texbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin
+export PATH=$HOME/bin:$HOME/.cabal/bin:$HOME/anaconda/envs/python34/bin:/usr/texbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin
 export EDITOR=/usr/bin/vim
 export FORTUNE_PATH=$HOME/.fortunes/
 export LANG="en_US.UTF-8"
