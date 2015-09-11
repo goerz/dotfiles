@@ -8,7 +8,12 @@ import shutil
 from glob import glob
 from subprocess import call, STDOUT
 from optparse import OptionParser
-from urllib import urlretrieve
+try:
+    # Python 2
+    from urllib import urlretrieve
+except ImportError:
+    # Python 3
+    from urllib.request import urlretrieve
 
 
 HOME          = os.environ['HOME']
