@@ -66,6 +66,8 @@ alias serve='python -m SimpleHTTPServer'
 alias keyboardoff='sudo kextunload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext/'
 alias keyboardon='sudo kextload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext'
 alias canopyenv='env PATH=$HOME/Library/Enthought/Canopy_64bit/User/bin:$PATH MPLCONFIGDIR=$HOME/.matplotlib.canopy'
+alias dodssh='/usr/local/ossh/bin/ssh'
+alias dodscp='/usr/local/ossh/bin/scp'
 
 # sudo pmset -a hibernatemode /n/.
 # 0 - Old style - just goes to sleep.
