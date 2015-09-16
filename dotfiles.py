@@ -14,6 +14,11 @@ try:
 except ImportError:
     # Python 3
     from urllib.request import urlretrieve
+try:
+    # make 'input' available in Python 2
+    input = raw_input
+except NameError:
+    pass
 
 
 HOME          = os.environ['HOME']
@@ -44,6 +49,7 @@ def make_link(src, dst, options):
 
         Raises OSError if an operation cannot be completed
     """
+    global input
     abs_src = os.path.join(DOTFILES, src)
     abs_dst = os.path.join(HOME, dst)
     dst_path = os.path.split(abs_dst)[0]
@@ -76,7 +82,7 @@ def make_link(src, dst, options):
             if not options.quiet:
                 print("%s -> %s" % (link_file, abs_src))
             if is_file_or_link(dst_path) and not options.quiet:
-                overwrite = raw_input(
+                overwrite = input(
                             "%s already exists as a file. Overwrite with "
                             "an empty folder? yes/[no]: "
                             % dst_path)
@@ -84,7 +90,7 @@ def make_link(src, dst, options):
                     os.unlink(dst_path)
             mkdir(dst_path)
             if is_file_or_link(link_file) and not options.quiet:
-                overwrite = raw_input(
+                overwrite = input(
                             "%s already exists. Overwrite? yes/[no]: "
                             % link_file)
                 if overwrite.lower().strip() == 'yes':
