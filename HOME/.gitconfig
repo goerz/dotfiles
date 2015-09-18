@@ -1,6 +1,6 @@
 [user]
     name = Michael Goerz
-    email = goerz@physik.uni-kassel.de
+    email = goerz@stanford.edu
 [core]
     editor = vim
     excludesfile = $HOME/.gitignore_global
