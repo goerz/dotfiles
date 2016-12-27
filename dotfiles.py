@@ -18,7 +18,7 @@ try:
     # make 'input' available in Python 2
     input = raw_input
 except NameError:
-    pass
+    input = input
 
 
 HOME          = os.environ['HOME']

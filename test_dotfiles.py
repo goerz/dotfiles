@@ -1,20 +1,17 @@
-#!/usr/bin/env python
-import sys
+"""
+Tests for dotfiles.py
+
+Run with `py.test test_dotfiles.py`
+"""
 import os
-import shutil
-import dotfiles
-import nose
-import __builtin__
-from os.path import join, isfile, isdir, realpath
 from os import readlink
-"""
-Run tests of dotfiles.py
+from os.path import join, isfile, isdir, realpath
+import shutil
 
-Options:
+import pytest
 
---nocapture  print the STDOUT from all tests
--v           give more information about tests
-"""
+import dotfiles
+
 
 class DummyOptions(object):
     def __init__(self, quiet=False, overwrite=False, uninstall=False):
@@ -23,17 +20,23 @@ class DummyOptions(object):
         self.uninstall = uninstall
 
 
-def clean_home():
+@pytest.fixture
+def test_home():
+    homedir = join("test", "HOME")
+    try:
+        shutil.rmtree(join("test", "HOME"))
+    except OSError:
+        pass
+    yield homedir
     try:
         shutil.rmtree(join("test", "HOME"))
     except OSError:
         pass
 
 
-@nose.with_setup(clean_home, clean_home)
-def test_make_link():
+def test_make_link(test_home):
 
-    dotfiles.HOME = join('test', 'HOME')
+    dotfiles.HOME = test_home
     dotfiles.DOTFILES = join('test', 'DOTFILES')
 
     # create simple file
@@ -58,10 +61,10 @@ def test_make_link():
         pass
 
     # we may also confirm the overwrite interactively
-    old_raw_input = __builtin__.raw_input
-    __builtin__.raw_input = lambda query: 'yes'
+    orig_input = dotfiles.input
+    dotfiles.input = lambda query: 'yes'
     dotfiles.make_link('.bashrc', '.bashrc', DummyOptions(quiet=False))
-    __builtin__.raw_input = old_raw_input
+    dotfiles.input = orig_input
     assert isfile(target_file)
 
     # or give the overwrite option
@@ -97,10 +100,9 @@ def test_make_link():
     assert isfile(target_file)
 
 
-@nose.with_setup(clean_home, clean_home)
-def test_get():
+def test_get(test_home):
 
-    dotfiles.HOME = join('test', 'HOME')
+    dotfiles.HOME = test_home
 
     # Standard download
     url = 'https://raw.githubusercontent.com/goerz/dotfiles/master/'\
@@ -125,10 +127,9 @@ def test_get():
     assert isfile(target_file) and os.access(target_file, os.X_OK)
 
 
-@nose.with_setup(clean_home, clean_home)
-def test_deploy_vim():
+def test_deploy_vim(test_home):
 
-    dotfiles.HOME = join('test', 'HOME')
+    dotfiles.HOME = test_home
     dotfiles.DOTFILES = join('test', 'DOTFILES')
 
     dotfiles.mkdir(dotfiles.HOME)
@@ -140,10 +141,9 @@ def test_deploy_vim():
     dotfiles.deploy_vim('https://github.com/goerz/vimrc.git', DummyOptions())
 
 
-@nose.with_setup(clean_home, clean_home)
-def test_make_links():
+def test_make_links(test_home):
 
-    dotfiles.HOME = join('test', 'HOME')
+    dotfiles.HOME = test_home
     shutil.copytree(join('test', 'DOTFILES'),
                     join(dotfiles.HOME, '.dotfiles', 'HOME'))
     dotfiles.DOTFILES = join(dotfiles.HOME, '.dotfiles')
@@ -180,13 +180,3 @@ def test_make_links():
     assert isdir(dotfiles.DOTFILES)
     assert not isfile(join(dotfiles.HOME, '.bashrc'))
     assert not isdir(join(dotfiles.HOME, '.grace'))
-
-
-
-if __name__ == "__main__":
-    dotfiles.HOME = join('test', 'HOME')
-    dotfiles.DOTFILES = join('test', 'DOTFILES')
-    if isdir(dotfiles.HOME):
-        shutil.rmtree(dotfiles.HOME)
-    dotfiles.mkdir(dotfiles.HOME)
-    nose.runmodule()
