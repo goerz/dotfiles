@@ -3,7 +3,8 @@
     email = goerz@stanford.edu
 [core]
     editor = vim
-    excludesfile = $HOME/.gitignore_global
+    excludesfile = ~/.gitignore_global
+	attributesfile = ~/.gitattributes
 [alias]
      st = status
      ci = commit
@@ -33,3 +34,8 @@
     trustExitCode = true
 [push]
     default = tracking
+[diff "jupyternotebook"]
+	command = git-nbdiffdriver diff
+[merge "jupyternotebook"]
+	driver = git-nbmergedriver merge %O %A %B %L %P
+	name = jupyter notebook merge driver
