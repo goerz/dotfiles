@@ -2,7 +2,7 @@
 <!DOCTYPE keyboard SYSTEM "file://localhost/System/Library/DTDs/KeyboardLayout.dtd">
 <!--Created by Ukelele version 1.7 on 2006-11-30 at 22:16 (PST)-->
 <!--Last edited by Ukelele version 1.7 on 2006-11-30 at 22:22 (PST)-->
-<keyboard group="126" id="-2" name="USUmlaut" maxout="3">
+<keyboard group="126" id="1" name="USUmlaut" maxout="3">
 <layouts>
 <layout first="0" last="17" modifiers="commonModifiers" mapSet="ANSI"/>
 <layout first="18" last="18" modifiers="commonModifiers" mapSet="JIS"/>
