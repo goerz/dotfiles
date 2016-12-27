@@ -6,6 +6,7 @@ import stat
 import sys
 import shutil
 from glob import glob
+import subprocess
 from subprocess import call, STDOUT
 from optparse import OptionParser
 try:
@@ -20,9 +21,32 @@ try:
 except NameError:
     input = input
 
+try:
 
-HOME          = os.environ['HOME']
-DOTFILES      = os.path.split(os.path.realpath(__file__))[0]
+    from subprocess import check_output
+
+except ImportError:
+
+    def check_output(*popenargs, **kwargs):
+        """Run command with arguments and return its output as a byte string.
+        Backported from Python 2.7"""
+        process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs,
+                                   **kwargs)
+        output = process.communicate()[0]
+        retcode = process.poll()
+        if retcode:
+            cmd = kwargs.get("args")
+            if cmd is None:
+                cmd = popenargs[0]
+            error = subprocess.CalledProcessError(retcode, cmd)
+            error.output = output
+            raise error
+        return output
+
+
+HOME = os.environ['HOME']
+DOTFILES = os.path.split(os.path.realpath(__file__))[0]
+
 
 def is_file_or_link(file):
     return os.path.isfile(file) or os.path.islink(file)
@@ -196,20 +220,8 @@ def deploy_vim(repo, options):
     vimrc        = os.path.join(HOME, ".vimrc")
     vimrc_target = os.path.join(vimdir, "init.vim")
     nvimdir      = os.path.join(XDG_CONFIG_HOME, "nvim")
-    stdout = None
-    mkdir(XDG_CONFIG_HOME)
-    if options.quiet:
-        stdout = open(os.devnull, 'w')
-    if not os.path.exists(vimdir):
-        cmd = ['git', 'clone', repo, '.vim']
-        if not options.quiet:
-            print(" ".join(cmd))
-        ret = call(cmd, cwd=HOME, stderr=STDOUT, stdout=stdout)
-        if ret != 0:
-            if not options.quiet:
-                print("WARNING: git returned nonzero exist status (%s)")
-    else:
-        git_update(vimdir, options.quiet)
+    deploy_repo(repo, ".vim", options, allow_uninstall='no')
+    # link for standard vim
     if options.overwrite:
         if is_file_or_link(vimrc):
             os.unlink(vimrc)
@@ -217,9 +229,86 @@ def deploy_vim(repo, options):
         make_link(os.path.abspath(vimrc_target), os.path.abspath(vimrc),
                   options)
     else:
-        raise OSError("Missing file %s" % (vimrc))
+        raise OSError("Missing file %s" % (vimrc_target))
+    # link for neovim
+    mkdir(XDG_CONFIG_HOME)
     make_link(os.path.abspath(vimdir), os.path.abspath(nvimdir),
               options)
+
+
+def deploy_repo(
+        repo, destination, options, branch='master', allow_uninstall='clean'):
+    """Create a checkout of the given `repo` and `branch` at `destination`
+    (relative to HOME), if `destination` does not exist yet.
+
+    If `destination` exists (and `options.uninstall` is False), do one of the
+    following:
+    * If `destination` is a git checkout, update it.
+    * If `destination` is not a git checkout, replace it with a checkout of
+      `repo` if `options.overwrite` is True, otherwise print a warning and exit
+
+    If `destination` exists, is a git checkout, and `options.uninstall` is
+    True, do one of the following:
+    * If `allow_uninstall` is 'clean', remove `destination` only if `git
+      status` does not show any uncommited changes (otherwise print an error
+      and exit)
+    * If `allow_uninstall` is 'dirty', remove `destination` unconditionally
+    * If `allow_uninstall` is 'no', do nothing
+    """
+    stdout = None
+    if options.quiet:
+        stdout = open(os.devnull, 'w')
+    create_checkout = True
+    checkout_dir = os.path.join(HOME, destination)
+    if os.path.exists(checkout_dir):
+        create_checkout = False
+        if options.uninstall:
+            if os.path.exists(os.path.join(checkout_dir, '.git')):
+                if allow_uninstall == 'dirty':
+                    shutil.rmtree(checkout_dir)
+                elif allow_uninstall == 'clean':
+                    cmd = ['git', 'status', '--porcelain']
+                    status = check_output(cmd, cwd=checkout_dir)
+                    empty = status[0:0]  # `empty` of same type as `status`!
+                    if status.strip() == empty:
+                        shutil.rmtree(checkout_dir)
+                    else:
+                        print("ERROR: Cannot uninstall %s (not clean)"
+                              % checkout_dir)
+                elif allow_uninstall == 'no':
+                    pass
+                else:
+                    raise ValueError("Invalid value %s for `allow_uninstall`"
+                                     % allow_uninstall)
+            else:
+                print("WARNING: %s cannnot be uninstalled (not a git repo)"
+                      % checkout_dir)
+        else:  # update or overwrite
+            if os.path.exists(os.path.join(checkout_dir, '.git')):
+                git_update(checkout_dir, options.quiet)
+            else:
+                if options.overwrite:
+                    shutil.rmtree(checkout_dir)
+                    create_checkout = True
+                else:
+                    print("WARNING: %s already exists and will not be "
+                          "overwritten without the --overwrite option"
+                          % checkout_dir)
+    if create_checkout:
+        cmd = ['git', 'clone', repo, destination]
+        if not options.quiet:
+            print(" ".join(cmd))
+        ret = call(cmd, cwd=HOME, stderr=STDOUT, stdout=stdout)
+        if ret != 0:
+            if not options.quiet:
+                print("WARNING: git returned nonzero exist status (%s)")
+        cmd = ['git', 'checkout', branch]
+        if not options.quiet:
+            print(" ".join(cmd))
+        ret = call(cmd, cwd=checkout_dir, stderr=STDOUT, stdout=stdout)
+        if ret != 0:
+            if not options.quiet:
+                print("WARNING: git returned nonzero exist status (%s)")
 
 
 def mkdir(directory):

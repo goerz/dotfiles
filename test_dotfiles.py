@@ -127,7 +127,51 @@ def test_get(test_home):
     assert isfile(target_file) and os.access(target_file, os.X_OK)
 
 
+def test_deploy_repo(test_home):
+    """Test deployment of a git repo"""
+    dotfiles.HOME = test_home
+    dotfiles.DOTFILES = join('test', 'DOTFILES')
+    dotfiles.mkdir(dotfiles.HOME)
+    # checkout (failing)
+    dotfiles.mkdir(os.path.join(dotfiles.HOME, 'myvimdir'))
+    dotfiles.deploy_repo('https://github.com/goerz/vimrc.git', 'myvimdir',
+                         DummyOptions())
+    assert isdir(join(dotfiles.HOME, 'myvimdir'))
+    assert not isfile(join(dotfiles.HOME, 'myvimdir', 'init.vim'))
+    # overwrite checkout
+    dotfiles.deploy_repo('https://github.com/goerz/vimrc.git', 'myvimdir',
+                         DummyOptions(overwrite=True))
+    assert isdir(join(dotfiles.HOME, 'myvimdir'))
+    assert isfile(join(dotfiles.HOME, 'myvimdir', 'init.vim'))
+    # refresh
+    dotfiles.deploy_repo('https://github.com/goerz/vimrc.git', 'myvimdir',
+                         DummyOptions(), allow_uninstall='clean')
+    # clean uninstall
+    dotfiles.deploy_repo('https://github.com/goerz/vimrc.git', 'myvimdir',
+                         DummyOptions(uninstall=True))
+    assert not isfile(join(dotfiles.HOME, 'myvimdir', 'init.vim'))
+    assert not isdir(join(dotfiles.HOME, 'myvimdir'))
+    # new checkout
+    dotfiles.deploy_repo('https://github.com/goerz/vimrc.git', 'myvimdir',
+                         DummyOptions())
+    with open(os.path.join(dotfiles.HOME, 'myvimdir', 'new_file.txt'), 'w') \
+            as out_fh:
+        out_fh.write("Hello World")
+    assert isdir(join(dotfiles.HOME, 'myvimdir'))
+    assert isfile(join(dotfiles.HOME, 'myvimdir', 'init.vim'))
+    assert isfile(join(dotfiles.HOME, 'myvimdir', 'new_file.txt'))
+    # clean uninstall (failing)
+    dotfiles.deploy_repo('https://github.com/goerz/vimrc.git', 'myvimdir',
+                         DummyOptions(uninstall=True), allow_uninstall='clean')
+    assert isfile(join(dotfiles.HOME, 'myvimdir', 'new_file.txt'))
+    # dirty uninstall
+    dotfiles.deploy_repo('https://github.com/goerz/vimrc.git', 'myvimdir',
+                         DummyOptions(uninstall=True), allow_uninstall='dirty')
+    assert not isdir(join(dotfiles.HOME, 'myvimdir'))
+
+
 def test_deploy_vim(test_home, monkeypatch):
+    """Test vim deployment"""
 
     dotfiles.HOME = test_home
     dotfiles.DOTFILES = join('test', 'DOTFILES')
@@ -142,6 +186,12 @@ def test_deploy_vim(test_home, monkeypatch):
     assert isfile(join(dotfiles.HOME, '.config', 'nvim', 'init.vim'))
     # A second call should update the repository
     dotfiles.deploy_vim('https://github.com/goerz/vimrc.git', DummyOptions())
+    # uninstall
+    dotfiles.deploy_vim('https://github.com/goerz/vimrc.git',
+                        DummyOptions(uninstall=True))
+    assert not isfile(join(dotfiles.HOME, '.vimrc'))
+    assert not islink(join(dotfiles.HOME, '.config', 'nvim'))
+    assert not isfile(join(dotfiles.HOME, '.config', 'nvim', 'init.vim'))
 
 
 def test_make_links(test_home):
