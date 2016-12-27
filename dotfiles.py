@@ -175,25 +175,32 @@ def deploy_vim(repo, options):
     """ Deploy vimrc from the given git repository.
 
         If ~/.vim does not exist already, the given repo will be cloned to
-        ~/.vim, and a symlink ~/.vimrc -> ~/.vim/vimrc will be created.
+        ~/.vim, and a symlink ~/.vimrc -> ~/.vim/init.vim will be created, as
+        well as a symlink $XDG_CONFIG_HOME/nvim -> ~/.vim (where
+        $XDG_CONFIG_HOME defaults to ~/.config)
 
         If ~/.vim does exist and is a git repository, it will be updated to the
         latest revision.
 
-        If optins.overwrite is True, and ~/.vim/vimrc exists, any existing file
-        ~/.vimrc will be removed and be replaced with a symlink to ~/.vim/vimrc
+        If options.overwrite is True, and ~/.vim/vimrc exists, any existing
+        file ~/.vimrc will be removed and be replaced with a symlink to
+        ~/.vim/init.vim. Likewise, $XDG_CONFIG_HOME/nvim will be replaced.
 
-        The flag options.uninstall will only affect the file ~/.vimrc, the .vim
-        folder is never touched. This is so that spell check files, buffers,
-        etc. don't get deleted accidentally
+        The flag options.uninstall will only affect the file ~/.vimrc and the
+        link $XDG_CONFIG_HOME/nvim; the .vim folder is never touched. This is
+        so that spell check files, buffers, etc. don't get deleted accidentally
     """
-    vimdir       = os.path.join(HOME,".vim")
-    vimrc        = os.path.join(HOME,".vimrc")
-    vimrc_target = os.path.join(vimdir,"vimrc")
+    XDG_CONFIG_HOME = os.environ.get('XDG_CONFIG_HOME',
+                                     os.path.join(HOME, ".config"))
+    vimdir       = os.path.join(HOME, ".vim")
+    vimrc        = os.path.join(HOME, ".vimrc")
+    vimrc_target = os.path.join(vimdir, "init.vim")
+    nvimdir      = os.path.join(XDG_CONFIG_HOME, "nvim")
     stdout = None
+    mkdir(XDG_CONFIG_HOME)
     if options.quiet:
         stdout = open(os.devnull, 'w')
-    if (not os.path.exists(vimdir)):
+    if not os.path.exists(vimdir):
         cmd = ['git', 'clone', repo, '.vim']
         if not options.quiet:
             print(" ".join(cmd))
@@ -211,6 +218,8 @@ def deploy_vim(repo, options):
                   options)
     else:
         raise OSError("Missing file %s" % (vimrc))
+    make_link(os.path.abspath(vimdir), os.path.abspath(nvimdir),
+              options)
 
 
 def mkdir(directory):
@@ -223,8 +232,8 @@ def mkdir(directory):
     if os.path.isdir(directory):
         pass
     elif is_file_or_link(directory):
-        raise OSError("a file with the same name as the desired " \
-                       "dir, '%s', already exists." % directory)
+        raise OSError("a file with the same name as the desired "
+                      "dir, '%s', already exists." % directory)
     else:
         head, tail = os.path.split(directory)
         if head and not os.path.isdir(head):

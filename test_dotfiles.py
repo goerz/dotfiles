@@ -5,7 +5,7 @@ Run with `py.test test_dotfiles.py`
 """
 import os
 from os import readlink
-from os.path import join, isfile, isdir, realpath
+from os.path import join, isfile, isdir, islink, realpath
 import shutil
 
 import pytest
@@ -127,16 +127,19 @@ def test_get(test_home):
     assert isfile(target_file) and os.access(target_file, os.X_OK)
 
 
-def test_deploy_vim(test_home):
+def test_deploy_vim(test_home, monkeypatch):
 
     dotfiles.HOME = test_home
     dotfiles.DOTFILES = join('test', 'DOTFILES')
+    monkeypatch.delenv('XDG_CONFIG_HOME', raising=False)
 
     dotfiles.mkdir(dotfiles.HOME)
     dotfiles.deploy_vim('https://github.com/goerz/vimrc.git', DummyOptions())
-    assert isfile(join(dotfiles.HOME, '.vimrc'))
+    assert islink(join(dotfiles.HOME, '.vimrc'))
     assert isdir(join(dotfiles.HOME, '.vim'))
-    assert isfile(join(dotfiles.HOME, '.vim', 'vimrc'))
+    assert isfile(join(dotfiles.HOME, '.vim', 'init.vim'))
+    assert islink(join(dotfiles.HOME, '.config', 'nvim'))
+    assert isfile(join(dotfiles.HOME, '.config', 'nvim', 'init.vim'))
     # A second call should update the repository
     dotfiles.deploy_vim('https://github.com/goerz/vimrc.git', DummyOptions())
 
