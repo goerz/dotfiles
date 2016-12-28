@@ -24,12 +24,13 @@ class DummyOptions(object):
 def test_home():
     homedir = join("test", "HOME")
     try:
-        shutil.rmtree(join("test", "HOME"))
+        shutil.rmtree(homedir)
     except OSError:
         pass
+    dotfiles.mkdir(homedir)
     yield homedir
     try:
-        shutil.rmtree(join("test", "HOME"))
+        shutil.rmtree(homedir)
     except OSError:
         pass
 
@@ -125,6 +126,12 @@ def test_get(test_home):
     # If make_exec is True, the resulting file should be executable
     dotfiles.get(url, 'README', DummyOptions(overwrite=True), make_exec=True)
     assert isfile(target_file) and os.access(target_file, os.X_OK)
+
+
+def test_check_remote_repo():
+    """Test checking accessability of remote repo"""
+    assert dotfiles.check_remote_repo('https://github.com/goerz/vimrc.git')
+    assert not dotfiles.check_remote_repo('http://example.com')
 
 
 def test_deploy_repo(test_home):

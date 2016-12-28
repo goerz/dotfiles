@@ -130,8 +130,8 @@ def change_extension(filename, new_ext):
 
 
 def make_links(folder, options, recursive=True, target='.', log_fh=None):
-    """
-    For every file in the given folder, create a link inside the target folder
+    """For every file in the given folder, create a link inside the target
+    folder
 
     `folder` is the path of a folder, relative to DOTFILES.
     `target` is the path of a folder in which to create the links, relative to
@@ -220,18 +220,38 @@ def deploy_vim(repo, options):
     nvimdir = os.path.join(XDG_CONFIG_HOME, "nvim")
     deploy_repo(repo, ".vim", options, allow_uninstall='no')
     # link for standard vim
-    if options.overwrite:
-        if is_file_or_link(vimrc):
-            os.unlink(vimrc)
     if os.path.isfile(vimrc_target):
+        if options.overwrite:
+            if is_file_or_link(vimrc):
+                os.unlink(vimrc)
         make_link(os.path.abspath(vimrc_target), os.path.abspath(vimrc),
                   options)
     else:
-        raise OSError("Missing file %s" % (vimrc_target))
+        if not options.uninstall and not options.quiet:
+            print("WARNING: Cannot link to %s" % vimrc_target)
     # link for neovim
-    mkdir(XDG_CONFIG_HOME)
-    make_link(os.path.abspath(vimdir), os.path.abspath(nvimdir),
-              options)
+    if os.path.isdir(vimdir):
+        mkdir(XDG_CONFIG_HOME)
+        make_link(os.path.abspath(vimdir), os.path.abspath(nvimdir),
+                options)
+    else:
+        if not options.uninstall and not options.quiet:
+            print("WARNING: Cannot link to %s" % vimdir)
+
+
+def check_remote_repo(repo, quiet=False):
+    """Check that the given remote git repo is accessible. Returns a boolean.
+    If `repo` is not accessible and `quiet` is False, print a warning."""
+    stdout = open(os.devnull, 'w')
+    cmd = ['git', 'ls-remote', repo]
+    ret = call(cmd, stderr=STDOUT, stdout=stdout)
+    if ret == 0:
+        return True
+    else:
+        if not quiet:
+            print("WARNING: repo %s is not accessible. Check your "
+                  "authentication" % repo)
+        return False
 
 
 def deploy_repo(
@@ -293,6 +313,8 @@ def deploy_repo(
                           "overwritten without the --overwrite option"
                           % checkout_dir)
     if create_checkout:
+        if not check_remote_repo(repo, options.quiet):
+            return
         cmd = ['git', 'clone', repo, destination]
         if not options.quiet:
             print(" ".join(cmd))
