@@ -20,7 +20,7 @@ export SYNCTEXREADER=/Applications/Skim.app/Contents/SharedSupport/displayline
 # EnvPane (https://github.com/hschmidt/EnvPane) must be installed in order to
 # re-activate support for environment.plist
 
-source /opt/Modules/3.2.9/init/bash
+source /usr/local/opt/modules/Modules/init/bash
 if type -t module > /dev/null; then
     # only if module command is loaded!
     module use --append $HOME/.modules
