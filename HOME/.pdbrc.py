@@ -1,11 +1,32 @@
+import os
 from pdb import DefaultConfig, Color
 from pygments.token import Keyword, Name, Comment, String, Error, \
      Number, Operator, Generic, Token, Whitespace
 
+
+def get_background():
+    """Return the terminal background color ('light' or 'dark'), based on the
+    COLORFGBG environement variable. Return None if the background color cannot
+    be determined"""
+    if 'COLORFGBG' in os.environ:
+        try:
+            bg_color_code = int(os.environ['COLORFGBG'].split(";")[-1])
+            if bg_color_code == 8 or bg_color_code <= 6:
+                return 'dark'
+            else:
+                return 'light'
+        except (IndexError, TypeError, ValueError):
+            return None
+    else:
+        return None
+
+
 class Config(DefaultConfig):
     """This is a config for pdb++."""
 
-    bg = 'light'
+    bg = get_background()
+    if bg is None:
+        bg = 'dark'
     filename_color = Color.darkgreen
     line_number_color = Color.brown
     current_line_color = int(Color.darkred)
@@ -40,7 +61,7 @@ class Config(DefaultConfig):
         Error:              ('_red_',      '_red_'),
         }
     prompt = 'pdb> '
-    sticky_by_default = True
+    sticky_by_default = False
 
     def setup(self, pdb):
         Pdb = pdb.__class__
