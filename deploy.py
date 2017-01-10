@@ -23,6 +23,8 @@ def deploy(options):
                          options)
     dotfiles.deploy_repo('git@github.com:goerz/ipythondir.git', '.ipython',
                          options)
+    dotfiles.deploy_repo('git@ssh.michaelgoerz.net:mutt', '.mutt',
+                         options)
     dotfiles.run_duti(options.quiet)
     dotfiles.set_crontab(options.quiet)
 
