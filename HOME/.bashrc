@@ -11,6 +11,7 @@ export EDITOR=vim
 export PATH=$HOME/bin:$PREFIX/bin:$PATH
 export LD_LIBRARY_PATH=$PREFIX/lib
 export MANPATH=$PREFIX/man:$MANPATH
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 alias ..='cd ..'
 alias ...='cd ../..'
