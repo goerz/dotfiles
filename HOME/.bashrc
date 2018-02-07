@@ -16,6 +16,8 @@ export GNUTERM=wxt
 export WORKON_HOME=$HOME/.virtualenvs
 export SYNCTEXREADER=/Applications/Skim.app/Contents/SharedSupport/displayline
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
 
 # Note on ~/.MacOSX/environment.plist post Mountain Lion:
 # EnvPane (https://github.com/hschmidt/EnvPane) must be installed in order to
