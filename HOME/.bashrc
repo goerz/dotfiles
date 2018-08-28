@@ -18,6 +18,7 @@ export SYNCTEXREADER=/Applications/Skim.app/Contents/SharedSupport/displayline
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+export BAT_THEME="Monokai Extended Light"
 
 # Note on ~/.MacOSX/environment.plist post Mountain Lion:
 # EnvPane (https://github.com/hschmidt/EnvPane) must be installed in order to
@@ -53,6 +54,7 @@ alias :wq='exit'
 alias :q='exit'
 alias :e='vim'
 alias vim=nvim
+alias cat='bat'
 alias tm='tmux new-window'
 alias skim='open -a Skim'
 alias preview='open -a Preview'
@@ -66,8 +68,8 @@ alias vimpure='vim --noplugin -u /dev/null -n'
 alias sc='ssh_clipboard.py -c'
 alias sp='ssh_clipboard.py -p'
 alias serve='python -m SimpleHTTPServer'
-alias lightbg='export "COLORFGBG=0;15"'
-alias darkbg='export "COLORFGBG=15;0"'
+alias lightbg='export "COLORFGBG=0;15" "BAT_THEME=Monokai Extended Light"'
+alias darkbg='export "COLORFGBG=15;0" "BAT_THEME=default"'
 alias keyboardoff='sudo kextunload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext/'
 alias keyboardon='sudo kextload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext'
 alias canopyenv='env PATH=$HOME/Library/Enthought/Canopy_64bit/User/bin:$PATH MPLCONFIGDIR=$HOME/.matplotlib.canopy'
