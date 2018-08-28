@@ -129,3 +129,16 @@ if [ ! -z "$PS1" ]; then # interactive terminal
 
     source $HOME/.bash/copy.sh
 fi
+
+if [ -f ~/.fzf.bash ]; then
+    source ~/.fzf.bash
+    export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude .venv'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_DEFAULT_OPTS="--ansi"
+    _fzf_compgen_dir() {
+        fd --type d --hidden --follow --exclude ".git" --exclude ".venv" . "$1"
+    }
+    _fzf_compgen_path() {
+        fd --follow --exclude ".git" --exclude ".venv" . "$1"
+    }
+fi
