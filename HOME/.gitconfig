@@ -4,7 +4,7 @@
 [core]
     editor = vim
     excludesfile = ~/.gitignore_global
-	attributesfile = ~/.gitattributes
+    attributesfile = ~/.gitattributes
 [alias]
      st = status
      ci = commit
@@ -17,12 +17,19 @@
      serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
      fetch = fetch -v
      up = "!git remote update -p; git merge --ff-only @{u}"
+     graph = "log --all --graph --decorate --pretty=format:'%C(#005f87)%h%Creset -%C(#d75f00)%d%Creset %s %C(#008700)(%cr) %C(#005f87)<%an>%Creset'%n"
 [color]
     ui = true
+[color "decorate"]
+    HEAD = "#d75f00"
+    branch = "#d75f00"
+    tag = "#d75f00"
+[log]
+    graphColors = normal
 [merge]
     tool = extMerge
 [mergetool "extMerge"]
-   cmd = extMerge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+    cmd = extMerge $BASE $LOCAL $REMOTE $MERGED
    trustExitCode = false
 [diff "pdf"]
   textconv = pdf2txt
@@ -35,9 +42,14 @@
 [push]
     default = tracking
 [diff "jupyternotebook"]
-	command = git-nbdiffdriver diff
+    command = git-nbdiffdriver diff
 [merge "jupyternotebook"]
-	driver = git-nbmergedriver merge %O %A %B %L %P
-	name = jupyter notebook merge driver
+    driver = git-nbmergedriver merge %O %A %B %L %P
+    name = jupyter notebook merge driver
 [github]
-	user = goerz
+    user = goerz
+[filter "lfs"]
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
