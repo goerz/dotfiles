@@ -17,7 +17,7 @@
      serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
      fetch = fetch -v
      up = "!git remote update -p; git merge --ff-only @{u}"
-     graph = "log --all --graph --decorate --pretty=format:'%C(#005f87)%h%Creset -%C(#d75f00)%d%Creset %s %C(#008700)(%cr) %C(#005f87)<%an>%Creset'%n"
+     graph = "log --all --graph --decorate --pretty=format:'%C(#005f87)%h%Creset :%C(#d75f00)%d%Creset %C(#005f87)%an%Creset %C(#008700)%cd (%cr)%n%s%n' --date=short"
 [color]
     ui = true
 [color "decorate"]
