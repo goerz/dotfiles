@@ -11,6 +11,7 @@ export EDITOR=vim
 export PATH=$HOME/bin:$PREFIX/bin:$PATH
 export LD_LIBRARY_PATH=$PREFIX/lib
 export MANPATH=$PREFIX/man:$MANPATH
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -32,6 +33,7 @@ alias vimpure='vim --noplugin -u /dev/null -n'
 alias open='xdg-open'
 alias lightbg='export "COLORFGBG=0;15"'
 alias darkbg='export "COLORFGBG=15;0"'
+alias serve='python -m http.server 8765'
 alias sc='ssh_clipboard.py -c'
 alias sp='ssh_clipboard.py -p'
 
