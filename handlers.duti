@@ -15,13 +15,11 @@ org.videolan.vlc                   public.mpeg                        viewer
 org.videolan.vlc                   public.mp3                         viewer
 org.videolan.vlc                   public.mp2                         viewer
 org.videolan.vlc                   public.movie                       viewer
-org.videolan.vlc                   public.bd-video-disc               viewer
 org.videolan.vlc                   public.avi                         viewer
 org.videolan.vlc                   public.ac3-audio                   viewer
 org.videolan.vlc                   public.aac-audio                   viewer
 org.videolan.vlc                   public.3gpp2                       viewer
 org.videolan.vlc                   public.3gpp                        viewer
-org.videolan.vlc                   com.theora.ogg                     viewer
 org.videolan.vlc                   com.microsoft.windows-media-wvx    viewer
 org.videolan.vlc                   com.microsoft.windows-media-wmx    viewer
 org.videolan.vlc                   com.microsoft.windows-media-wmv    viewer
@@ -29,7 +27,6 @@ org.videolan.vlc                   com.microsoft.windows-media-wmp    viewer
 org.videolan.vlc                   com.microsoft.windows-media-wma    viewer
 org.videolan.vlc                   com.microsoft.windows-media-wm     viewer
 org.videolan.vlc                   com.microsoft.windows-media-wax    viewer
-org.videolan.vlc                   com.matroska.mkv                   viewer
 com.qvacua.VimR                    txt                                all
 com.qvacua.VimR                    dat                                all
 com.qvacua.VimR                    markdown                           editor
