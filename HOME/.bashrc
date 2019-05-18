@@ -7,10 +7,14 @@
 umask 027
 
 export PREFIX=$HOME/local
-export EDITOR=vim
-export PATH=$HOME/bin:$PREFIX/bin:$PATH
+export PATH=$PREFIX/bin:$PATH
 export LD_LIBRARY_PATH=$PREFIX/lib
 export MANPATH=$PREFIX/man:$MANPATH
+
+export PYENV_ROOT=$HOME/.pyenv
+export PATH=$PYENV_ROOT/bin:$PATH
+
+export EDITOR=vim
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 alias ..='cd ..'
@@ -34,8 +38,6 @@ alias open='xdg-open'
 alias lightbg='export "COLORFGBG=0;15"'
 alias darkbg='export "COLORFGBG=15;0"'
 alias serve='python -m http.server 8765'
-alias sc='ssh_clipboard.py -c'
-alias sp='ssh_clipboard.py -p'
 
 if [ ! -z "$PS1" ]; then # interactive terminal
 
@@ -44,7 +46,6 @@ if [ ! -z "$PS1" ]; then # interactive terminal
     # Fix bug where completion of $PREFIX -> \$PREFIX
     #complete -F _cd $nospace $filenames cd
 
-    # interactive shell
     shopt -s checkwinsize
     export PS1="\u@\h:\w> "
     if [ "\$(type -t __git_ps1)" ]; then
@@ -67,3 +68,20 @@ if [ ! -z "$PS1" ]; then # interactive terminal
 
 fi
 
+if [ -f ~/.fzf.bash ]; then
+    source ~/.fzf.bash
+    export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude .venv'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_DEFAULT_OPTS="--ansi"
+    _fzf_compgen_dir() {
+        fd --type d --hidden --follow --exclude ".git" --exclude ".venv" . "$1"
+    }
+    _fzf_compgen_path() {
+        fd --follow --exclude ".git" --exclude ".venv" . "$1"
+    }
+fi
+
+if [ -d $PYENV_ROOT ]; then
+    eval "$(pyenv init -)"
+fi
+export PATH=$HOME/bin:$PATH
