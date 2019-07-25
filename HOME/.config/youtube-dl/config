@@ -1,0 +1,5 @@
+# download the 720p mp4 video, if available, or best mp4 video, or whatever the best format is otherwise
+-f mp4[height<=720]/mp4/best
+
+# don't donwload playlists by default (override with --yes-playlist)
+--no-playlist
