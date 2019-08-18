@@ -8,7 +8,9 @@
 #OSX version     :Tested on OSX 10.6.8
 #usage           :socksProxySSH.sh [remoteHost [localPort (default:1080)]]
 
-DEFAULTSSHHOST="physsun2.rutgers.edu"
+#DEFAULTSSHHOST="root@178.62.75.195"
+DEFAULTSSHHOST="mlhpc2.stanford.edu"
+#DEFAULTSSHHOST="physsun2.rutgers.edu"
 #DEFAULTSSHHOST="katamon.physik.uni-kassel.de"
 #DEFAULTSSHHOST="bigboy.cchem.berkeley.edu"
 
