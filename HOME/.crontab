@@ -7,5 +7,4 @@
 # *    *    *    *    *      command to be executed
  */5   *    *    *    *      if [ -e $HOME/.procimap/notify.py ]; then $HOME/.procimap/notify.py > /dev/null; fi
  38    *    *    *    *      if [ -e $HOME/bin/actlog_check_status.pl ]; then $HOME/bin/actlog_check_status.pl; fi
- 22   13    *    *    *      /usr/bin/find $HOME -type d -name Library -prune -o -type d -name .git -print | /usr/bin/sed 's/\/\.git$//' > $HOME/.gitrepos
  0    2,13  *    *    *      $HOME/.pyenv/versions/2.7.17/bin/python2.7 $HOME/.dotfiles/deploy.py --quiet
