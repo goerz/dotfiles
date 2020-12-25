@@ -4,6 +4,7 @@ import os
 import stat
 import sys
 import shutil
+from fnmatch import fnmatch
 from glob import glob
 import subprocess
 from subprocess import call, STDOUT
@@ -129,9 +130,15 @@ def change_extension(filename, new_ext):
     return root + new_ext
 
 
-def make_links(folder, options, recursive=True, target='.', log_fh=None):
-    """For every file in the given folder, create a link inside the target
-    folder
+def make_links(
+        folder,
+        options,
+        recursive=True,
+        target='.',
+        log_fh=None,
+        ignore=('.DS_Store', '*~')
+    ):
+    """For every file in the given `folder`, create a link inside the `target`.
 
     `folder` is the path of a folder, relative to DOTFILES.
     `target` is the path of a folder in which to create the links, relative to
@@ -139,6 +146,8 @@ def make_links(folder, options, recursive=True, target='.', log_fh=None):
     `options` are passed to the `make_link` routine
     If `recursive` is True, links are also generated for all all subfolders of
     `folder`
+    `ignore` is an iterable of filename patterns. Any file in `folder` matching
+    a pattern in `ignore` is ignored.
 
     A list of all generated link destinations is written to the given `log_fh`.
     If `log_fh` is None, a new file DOTFILES/.{folder}.links will be opened and
@@ -155,6 +164,9 @@ def make_links(folder, options, recursive=True, target='.', log_fh=None):
                       change_extension(log_filename, 'old_links'))
         log_fh = open(log_filename, 'w')
     for file in files:  # file is relative to CWD
+        filename = os.path.basename(file)
+        if any([fnmatch(filename, pat) for pat in ignore]):
+            continue
         src = os.path.relpath(file, DOTFILES)
         dst = os.path.relpath(file, os.path.join(DOTFILES, folder))
         if target != '.':
