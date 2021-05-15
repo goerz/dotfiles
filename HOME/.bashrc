@@ -4,14 +4,18 @@
 # A non-login interactive shell reads .bashrc (and inherits login variables)
 # A non-interative shell (e.g. running a shell script) reads only the file
 # given in $BASH_ENV, if defined.
+export HOMEBREW_PREFIX="/opt/homebrew";
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+export HOMEBREW_REPOSITORY="/opt/homebrew";
 export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/bin:/Library/TeX/texbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin
-export EDITOR=/usr/bin/vim
+export PATH=$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$HOMEBREW_PREFIX/opt/gnu-units/libexec/gnubin:/Library/TeX/texbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin
+export EDITOR=/opt/homebrew/bin/vim
 export FORTUNE_PATH=$HOME/.fortunes/
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8" # this has to be set in ~/.MacOSX/environment.plist as well
-export MANPATH=/opt/local/man:$MANPATH
+export MANPATH="$HOMEBREW_PREFIX/share/man:$MANPATH"
+export INFOPATH="$HOMEBREW_PREFIX/share/info:${INFOPATH:-}";
 export PROC_IMAP_PROFILE=$HOME/.procimap/mailboxes.cfg
 export GNUTERM=wxt
 export WORKON_HOME=$HOME/.virtualenvs
