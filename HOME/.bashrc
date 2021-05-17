@@ -4,12 +4,38 @@
 # A non-login interactive shell reads .bashrc (and inherits login variables)
 # A non-interative shell (e.g. running a shell script) reads only the file
 # given in $BASH_ENV, if defined.
-export HOMEBREW_PREFIX="/opt/homebrew";
-export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
-export HOMEBREW_REPOSITORY="/opt/homebrew";
-export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/bin:$PYENV_ROOT/shims:$HOME/.local/bin:$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$HOMEBREW_PREFIX/opt/gnu-units/libexec/gnubin:/Library/TeX/texbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin
-export EDITOR=/opt/homebrew/bin/vim
+
+arch_name="$(uname -m)"
+
+if [ "${arch_name}" = "x86_64" ]; then
+    if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
+        export SHELL_ARCH="rosetta2"
+        export PYENV_ROOT="$HOME/.pyenv-rosetta"
+    else
+        export SHELL_ARCH="intel"
+        export PYENV_ROOT="$HOME/.pyenv"
+    fi
+    export HOMEBREW_PREFIX="/usr/local";
+    export HOMEBREW_CELLAR="/usr/local/Cellar";
+    export HOMEBREW_REPOSITORY="/usr/local/Homebrew";
+    export GNUBIN="/usr/local/opt/make/libexec/gnubin"
+elif [ "${arch_name}" = "arm64" ]; then
+    export SHELL_ARCH="arm"
+    export HOMEBREW_PREFIX="/opt/homebrew";
+    export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+    export HOMEBREW_REPOSITORY="/opt/homebrew";
+    export PYENV_ROOT="$HOME/.pyenv"
+else
+    echo "Unknown architecture: ${arch_name}"
+fi
+export PREFIX="$HOME/.local"
+export EDITOR=$HOMEBREW_PREFIX/bin/vim
+export GNUBIN="$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin"
+export PATH="/Library/TeX/texbin:$PATH"
+export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$GNUBIN:$PATH"
+export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+export PATH="$HOME/bin:$PREFIX/bin:$PATH"
 export FORTUNE_PATH=$HOME/.fortunes/
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
@@ -35,9 +61,8 @@ if type -t module > /dev/null; then
     module use --append $HOME/.modules
 fi
 
-export PREFIX=$HOME/local
-export PATH=$PATH:$PREFIX/bin
 
+alias rbash='/usr/local/bin/bash'
 alias ls='ls -G -h'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -103,9 +128,16 @@ if [ ! -z "$PS1" ]; then # interactive terminal
     #if [ $TERM == 'xterm' ]; then
         #export TERM='xterm-256color'
     #fi
-    export PS1="\u@\h:\w> "
-    if [ "\$(type -t __git_ps1)" ]; then
-        PS1="\u@\h\$(__git_ps1 ' %s'):\w> "
+    if [ "$SHELL_ARCH" = "rosetta2" ]; then
+        export PS1="\u@\h(r):\w> "
+        if [ "\$(type -t __git_ps1)" ]; then
+            PS1="\u@\h(r)\$(__git_ps1 ' %s'):\w> "
+        fi
+    else
+        export PS1="\u@\h:\w> "
+        if [ "\$(type -t __git_ps1)" ]; then
+            PS1="\u@\h\$(__git_ps1 ' %s'):\w> "
+        fi
     fi
 
     # Add loaded envirnomnent modules to prompt
@@ -123,6 +155,11 @@ if [ ! -z "$PS1" ]; then # interactive terminal
     PS1="\$(__module_ps1)$PS1"
 
     source $HOME/.bash/copy.sh
+
+else
+
+    export SHELL_NONINTERACTIVE=1
+
 fi
 
 if [ -f ~/.fzf.bash ]; then
@@ -138,7 +175,6 @@ if [ -f ~/.fzf.bash ]; then
     }
 fi
 
-if [ -d $PYENV_ROOT ]; then
+if [ -d "$PYENV_ROOT" ]; then
     eval "$(pyenv init -)"
 fi
-export PATH=$HOME/bin:$PATH
