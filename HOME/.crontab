@@ -7,4 +7,4 @@
 # *    *    *    *    *      command to be executed
  */5   *    *    *    *      if [ -e $HOME/.procimap/notify.py ]; then $HOME/.procimap/notify.py > /dev/null; fi
  38    *    *    *    *      if [ -e $HOME/bin/actlog_check_status.pl ]; then $HOME/bin/actlog_check_status.pl; fi
- 0    2,13  *    *    *      $HOME/.pyenv/versions/3.8.10/bin/python $HOME/.dotfiles/deploy.py --quiet
+ 0    2,13  *    *    *      $HOME/.pyenv/versions/3.9.7/bin/python $HOME/.dotfiles/deploy.py --quiet
