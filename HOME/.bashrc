@@ -28,12 +28,14 @@ elif [ "${arch_name}" = "arm64" ]; then
 else
     echo "Unknown architecture: ${arch_name}"
 fi
+export PLENV_ROOT="$HOME/.plenv"
 export PREFIX="$HOME/.local"
 export EDITOR=$HOMEBREW_PREFIX/bin/vim
 export GNUBIN="$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin"
 export PATH="/Library/TeX/texbin:$PATH"
 export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$GNUBIN:$PATH"
+export PATH="$PLENV_ROOT/bin:$PLENV_ROOT/shims:$PATH"
 export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
 export PATH="$HOME/bin:$PREFIX/bin:$PATH"
 export FORTUNE_PATH=$HOME/.fortunes/
