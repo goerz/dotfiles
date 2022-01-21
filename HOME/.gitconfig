@@ -17,7 +17,7 @@
      serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
      fetch = fetch -v
      up = "!git remote update -p; git merge --ff-only @{u}"
-     graph = "log --all --graph --decorate --pretty=format:'%Creset%h:%C(bold Blue)%d%Creset %an %cd (%cr)%n%s%n' --date=short"
+     graph = "log --graph --decorate --pretty=format:'%Creset%h:%C(bold Blue)%d%Creset %an %cd (%cr)%n%s%n' --date=short --exclude '*/gh-pages'"
 [color]
     ui = true
 [color "decorate"]
@@ -53,3 +53,7 @@
     required = true
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
+[rebase]
+	autosquash = true
+[init]
+	defaultBranch = master
