@@ -6,7 +6,7 @@
 # given in $BASH_ENV, if defined.
 umask 027
 
-export PREFIX=$HOME/local
+export PREFIX=$HOME/.local
 export PATH=$PREFIX/bin:$PATH
 export LD_LIBRARY_PATH=$PREFIX/lib
 export MANPATH=$PREFIX/man:$MANPATH
