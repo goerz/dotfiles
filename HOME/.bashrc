@@ -14,7 +14,7 @@ export MANPATH=$PREFIX/man:$MANPATH
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH
 
-export EDITOR=vim
+export EDITOR=nvim
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 alias ..='cd ..'
@@ -33,7 +33,8 @@ alias rd='rmdir'
 alias less='less -R'
 alias tm='tmux new-window'
 alias hexdump8='hexdump -e "\"%08.8_ax  \" 4/1 \"%02x \" \"  \" 4/1 \"%02x \"" -e"\"  |\" 8/1 \"%1_p\" \"|\n\""'
-alias vimpure='vim --noplugin -u /dev/null -n'
+alias vim=nvim
+alias vi='vim --noplugin -u /dev/null -n'
 alias open='xdg-open'
 alias lightbg='export "COLORFGBG=0;15"'
 alias darkbg='export "COLORFGBG=15;0"'
