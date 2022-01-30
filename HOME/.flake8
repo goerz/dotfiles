@@ -1,0 +1,9 @@
+[flake8]
+max-line-length = 79
+extend-ignore =
+      # See https://github.com/PyCQA/pycodestyle/issues/373
+      E203,
+      # don't care about "ambiguous variable names"
+      E741,
+      # when I use lambdas, I know what I'm doing
+      E731,
