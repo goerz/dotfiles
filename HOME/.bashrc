@@ -83,23 +83,10 @@ alias skim='open -a Skim'
 alias preview='open -a Preview'
 alias units='gunits'
 alias gitx='open -a GitX'
-alias vimpure='vim --noplugin -u /dev/null -n'
+alias vi='"vim" --noplugin -u /dev/null -n'
 alias serve='python -m http.server'
 alias lightbg='export "COLORFGBG=0;15" "BAT_THEME=Monokai Extended Light"'
 alias darkbg='export "COLORFGBG=15;0" "BAT_THEME=default"'
-alias keyboardoff='sudo kextunload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext/'
-alias keyboardon='sudo kextload /System/Library/Extensions/AppleUSBTopCase.kext/Contents/PlugIns/AppleUSBTCKeyboard.kext'
-alias dodssh='/usr/local/ossh/bin/ssh'
-alias dodscp='/usr/local/ossh/bin/scp'
-
-# sudo pmset -a hibernatemode /n/.
-# 0 - Old style - just goes to sleep.
-# 1 - Only Hibernate
-# 3 - Default - goes to sleep but writes RAM contents to disk just in case.
-# 5 - Only Hibernate mode but if you use secure virtual memory.
-# 7 - The Default but if you use secure virtual memory.
-alias hibernateon="sudo pmset -a hibernatemode 5"
-alias hibernateoff="sudo pmset -a hibernatemode 7"
 
 
 if [ ! -z "$PS1" ]; then # interactive terminal
