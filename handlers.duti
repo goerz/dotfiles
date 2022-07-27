@@ -48,4 +48,3 @@ com.qvacua.VimR                    public.source-code                 editor
 com.qvacua.VimR                    public.text                        editor
 com.qvacua.VimR                    public.xml                         editor
 edu.ucsd.cs.mmccrack.bibdesk       bib                                all
-org.jupyter.nbopen                 ipynb                              all
