@@ -28,6 +28,7 @@
     graphColors = normal
 [merge]
     tool = extMerge
+	conflictstyle = diff3
 [mergetool "extMerge"]
     cmd = extMerge $BASE $LOCAL $REMOTE $MERGED
    trustExitCode = false
