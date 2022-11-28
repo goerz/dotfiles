@@ -1,6 +1,6 @@
 [user]
     name = Michael Goerz
-    email = goerz@stanford.edu
+    email = mail@michaelgoerz.net
 [core]
     editor = vim
     excludesfile = ~/.gitignore_global
@@ -27,7 +27,7 @@
 [log]
     graphColors = normal
 [merge]
-    tool = extMerge
+	tool = vimdiff
 	conflictstyle = diff3
 [mergetool "extMerge"]
     cmd = extMerge $BASE $LOCAL $REMOTE $MERGED
