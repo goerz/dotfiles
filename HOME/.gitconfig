@@ -1,6 +1,6 @@
 [user]
     name = Michael Goerz
-    email = goerz@stanford.edu
+    email = mail@michaelgoerz.net
 [core]
     editor = vim
     excludesfile = ~/.gitignore_global
@@ -53,3 +53,5 @@
     required = true
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
+[pull]
+	ff = only
