@@ -17,6 +17,14 @@ export PATH=$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH
 export EDITOR=vim
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
+export NUMEXPR_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+export JULIA_DEPOT_PATH=/local_scratch/$USER/.julia
+
 alias ..='cd ..'
 alias ...='cd ../..'
 alias -- +='pushd .'
