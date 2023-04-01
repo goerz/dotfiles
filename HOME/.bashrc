@@ -91,18 +91,6 @@ alias darkbg='export "COLORFGBG=15;0" "BAT_THEME=default"'
 
 if [ ! -z "$PS1" ]; then # interactive terminal
 
-    function epoch()
-    {
-        perl -e "print scalar(localtime(${1})), \"\n\""
-    }
-
-    function wifi-password()
-    # http://lifehacker.com/find-the-wi-fi-password-for-your-current-network-with-t-1717978747
-    {
-        security find-generic-password -ga ${1} | grep password
-    }
-
-
     if [ -f `brew --prefix`/etc/bash_completion ]; then
         . `brew --prefix`/etc/bash_completion
     fi
@@ -112,33 +100,17 @@ if [ ! -z "$PS1" ]; then # interactive terminal
         #export TERM='xterm-256color'
     #fi
     if [ "$SHELL_ARCH" = "rosetta2" ]; then
-        export PS1="\u@\h(r):\w> "
+        export PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h(r):\w> "
         if [ "\$(type -t __git_ps1)" ]; then
-            PS1="\u@\h(r)\$(__git_ps1 ' %s'):\w> "
+            PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h(r)\$(__git_ps1 ' %s'):\w> "
         fi
     else
-        export PS1="\u@\h:\w> "
+        export PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h:\w> "
         if [ "\$(type -t __git_ps1)" ]; then
-            PS1="\u@\h\$(__git_ps1 ' %s'):\w> "
+            PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h\$(__git_ps1 ' %s'):\w> "
         fi
     fi
-
-    # Add loaded envirnomnent modules to prompt
-    __module_ps1(){
-        # Loaded modules should add a short version of their name to the
-        # $PS1_LOADEDMODULES list environment variable if they want this name
-        # to appear in the prompt
-        if [[ $PS1_LOADEDMODULES && ${PS1_LOADEDMODULES-_} ]]
-        then
-            printf "[%s] " $PS1_LOADEDMODULES
-        else
-            printf ""
-        fi
-    }
-    PS1="\$(__module_ps1)$PS1"
-
     source $HOME/.bash/copy.sh
-
 else
 
     export SHELL_NONINTERACTIVE=1
