@@ -48,24 +48,10 @@ if [ ! -z "$PS1" ]; then # interactive terminal
     #complete -F _cd $nospace $filenames cd
 
     shopt -s checkwinsize
-    export PS1="\u@\h:\w> "
+    export PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h:\w> "
     if [ "\$(type -t __git_ps1)" ]; then
-        PS1="\u@\h\$(__git_ps1 ' %s'):\w> "
+       PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h\$(__git_ps1 ' %s'):\w> "
     fi
-
-    # Add loaded envirnomnent modules to prompt
-    __module_ps1(){
-        # Loaded modules should add a short version of their name to the
-        # $PS1_LOADEDMODULES list environment variable if they want this name
-        # to appear in the prompt
-        if [[ $PS1_LOADEDMODULES && ${PS1_LOADEDMODULES-_} ]]
-        then
-            printf "[%s] " $PS1_LOADEDMODULES
-        else
-            printf ""
-        fi
-    }
-    PS1="\$(__module_ps1)$PS1"
 
 fi
 
