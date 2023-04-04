@@ -14,6 +14,9 @@ export MANPATH=$PREFIX/man:$MANPATH
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH
 
+export JULIAUP_ROOT=$HOME/.julia/juliaup/
+export PATH=$JULIAUP_ROOT/bin:$PATH
+
 export EDITOR=nvim
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
@@ -48,9 +51,9 @@ if [ ! -z "$PS1" ]; then # interactive terminal
     #complete -F _cd $nospace $filenames cd
 
     shopt -s checkwinsize
-    export PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h:\w> "
+    export PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h:\w> "
     if [ "\$(type -t __git_ps1)" ]; then
-       PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h\$(__git_ps1 ' %s'):\w> "
+        PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h\$(__git_ps1 ' %s'):\w> "
     fi
 
 fi
