@@ -28,15 +28,18 @@ elif [ "${arch_name}" = "arm64" ]; then
 else
     echo "Unknown architecture: ${arch_name}"
 fi
+
+export JULIAUP_ROOT=$HOME/.juliaup/
 export PLENV_ROOT="$HOME/.plenv"
 export PREFIX="$HOME/.local"
-export EDITOR=$HOMEBREW_PREFIX/bin/vim
+export EDITOR=$HOMEBREW_PREFIX/bin/nvim
 export GNUBIN="$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin"
 export PATH="/Library/TeX/texbin:$PATH"
 export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$GNUBIN:$PATH"
 export PATH="$PLENV_ROOT/bin:$PLENV_ROOT/shims:$PATH"
 export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+export PATH="$JULIAUP_ROOT/bin:$PATH"
 export PATH="$HOME/bin:$PREFIX/bin:$PATH"
 export FORTUNE_PATH=$HOME/.fortunes/
 export LANG="en_US.UTF-8"
@@ -100,14 +103,14 @@ if [ ! -z "$PS1" ]; then # interactive terminal
         #export TERM='xterm-256color'
     #fi
     if [ "$SHELL_ARCH" = "rosetta2" ]; then
-        export PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h(r):\w> "
+        export PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h(r):\w> "
         if [ "\$(type -t __git_ps1)" ]; then
-            PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h(r)\$(__git_ps1 ' %s'):\w> "
+            PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h(r)\$(__git_ps1 ' %s'):\w> "
         fi
     else
-        export PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h:\w> "
+        export PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h:\w> "
         if [ "\$(type -t __git_ps1)" ]; then
-            PS1="\$(if [ \$? == 0 ]; then echo \\e[0\;32m●\\e[m; else echo \\e[0\;31m●\\e[m; fi) \u@\h\$(__git_ps1 ' %s'):\w> "
+            PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h\$(__git_ps1 ' %s'):\w> "
         fi
     fi
     source $HOME/.bash/copy.sh
