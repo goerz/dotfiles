@@ -5,6 +5,7 @@
     editor = vim
     excludesfile = ~/.gitignore_global
     attributesfile = ~/.gitattributes
+    quotePath = false
 [alias]
      st = status
      ci = commit
@@ -27,8 +28,8 @@
 [log]
     graphColors = normal
 [merge]
-	tool = vimdiff
-	conflictstyle = diff3
+    tool = vimdiff
+    conflictstyle = diff3
 [mergetool "extMerge"]
     cmd = extMerge $BASE $LOCAL $REMOTE $MERGED
    trustExitCode = false
@@ -55,6 +56,6 @@
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
 [rebase]
-	autosquash = true
+    autosquash = true
 [init]
-	defaultBranch = master
+    defaultBranch = master
