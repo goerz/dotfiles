@@ -5,6 +5,7 @@
     editor = vim
     excludesfile = ~/.gitignore_global
     attributesfile = ~/.gitattributes
+    quotePath = false
 [alias]
      st = status
      ci = commit
