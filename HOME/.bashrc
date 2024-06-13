@@ -55,6 +55,7 @@ export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
 export BAT_THEME="Monokai Extended Light"
+export JULIA_PKG_PRESERVE_TIERED_INSTALLED=true
 
 # Note on ~/.MacOSX/environment.plist post Mountain Lion:
 # EnvPane (https://github.com/hschmidt/EnvPane) must be installed in order to
