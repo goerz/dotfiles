@@ -15,6 +15,7 @@ export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH
 
 export JULIAUP_ROOT=$HOME/.julia/juliaup/
+export JULIA_PKG_PRESERVE_TIERED_INSTALLED=true
 export PATH=$JULIAUP_ROOT/bin:$PATH
 
 export EDITOR=nvim
