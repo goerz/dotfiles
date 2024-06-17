@@ -18,7 +18,11 @@ def deploy(options):
         command line options
     """
     dotfiles.make_links('HOME', options)
-    dotfiles.deploy_vim('https://github.com/goerz/vimrc.git', options)
+    dotfiles.deploy_neovim(
+        'https://github.com/goerz/neovimrc.git',
+        options,
+        vim_repo='https://github.com/goerz/vimrc.git'
+    )
     dotfiles.set_crontab(options.quiet)
 
 dotfiles.main(deploy)
