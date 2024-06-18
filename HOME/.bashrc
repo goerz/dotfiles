@@ -81,7 +81,8 @@ alias :make='make'
 alias :wq='exit'
 alias :q='exit'
 alias :e='vim'
-alias vim=nvim
+alias vi="'vim' --noplugin -u /dev/null -n"
+alias vim="NVIM_APPNAME=vim nvim"
 alias tm='tmux new-window'
 alias skim='open -a Skim'
 alias preview='open -a Preview'

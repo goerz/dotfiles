@@ -18,7 +18,11 @@ def deploy(options):
         command line options
     """
     dotfiles.make_links('HOME', options)
-    dotfiles.deploy_vim('git@github.com:goerz/vimrc.git', options)
+    dotfiles.deploy_neovim(
+        'git@github.com:goerz/neovimrc.git',
+        options,
+        vim_repo='git@github.com:goerz/vimrc.git'
+    )
     dotfiles.deploy_repo('git@github.com:goerz/jupyterdir.git', '.jupyter',
                          options)
     dotfiles.deploy_repo('git@github.com:goerz/ipythondir.git', '.ipython',
