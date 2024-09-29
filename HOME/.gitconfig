@@ -2,7 +2,7 @@
     name = Michael Goerz
     email = mail@michaelgoerz.net
 [core]
-    editor = vim
+    editor = nvim
     excludesfile = ~/.gitignore_global
     attributesfile = ~/.gitattributes
     quotePath = false
