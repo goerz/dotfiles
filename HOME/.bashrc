@@ -85,7 +85,6 @@ alias vi="'vim' --noplugin -u /dev/null -n"
 alias vim="NVIM_APPNAME=vim nvim"
 alias tm='tmux new-window'
 alias skim='open -a Skim'
-alias preview='open -a Preview'
 alias units='gunits'
 alias gitx='open -a GitX'
 alias vi='"vim" --noplugin -u /dev/null -n'
