@@ -57,6 +57,13 @@ export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
 export BAT_THEME="Monokai Extended Light"
 export JULIA_PKG_PRESERVE_TIERED_INSTALLED=true
 
+export JULIA_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+
 # Note on ~/.MacOSX/environment.plist post Mountain Lion:
 # EnvPane (https://github.com/hschmidt/EnvPane) must be installed in order to
 # re-activate support for environment.plist
