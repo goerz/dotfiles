@@ -99,6 +99,18 @@ alias serve='python -m http.server'
 alias lightbg='export "COLORFGBG=0;15" "BAT_THEME=Monokai Extended Light"'
 alias darkbg='export "COLORFGBG=15;0" "BAT_THEME=default"'
 
+cppath() {
+    if [ "$#" -eq 0 ]; then
+        # No arguments → current directory
+        realpath "$(pwd)" | tr -d '\n' | pbcopy
+    elif [ "$#" -eq 1 ]; then
+        # Exactly one argument
+        realpath "$1" | tr -d '\n' | pbcopy
+    else
+        echo "cppath: error: only one path at a time" >&2
+        return 1
+    fi
+}
 
 if [ ! -z "$PS1" ]; then # interactive terminal
 
