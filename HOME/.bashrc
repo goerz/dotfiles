@@ -32,7 +32,7 @@ fi
 export JULIAUP_ROOT=$HOME/.juliaup/
 export PLENV_ROOT="$HOME/.plenv"
 export PREFIX="$HOME/.local"
-export EDITOR=$HOMEBREW_PREFIX/bin/nvim
+export EDITOR=nvim
 export GNUBIN="$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin"
 export PATH="/Library/TeX/texbin:$PATH"
