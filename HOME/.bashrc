@@ -26,6 +26,7 @@ else
     echo "Unknown architecture: ${arch_name}"
 fi
 
+export QUARTO_PYTHON=$HOME/.local/share/uv/tools/jupyterlab/bin/python
 export JULIAUP_ROOT=$HOME/.juliaup/
 export PLENV_ROOT="$HOME/.plenv"
 export PREFIX="$HOME/.local"
