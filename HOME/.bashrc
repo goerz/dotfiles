@@ -10,10 +10,8 @@ arch_name="$(uname -m)"
 if [ "${arch_name}" = "x86_64" ]; then
     if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
         export SHELL_ARCH="rosetta2"
-        export PYENV_ROOT="$HOME/.pyenv-rosetta"
     else
         export SHELL_ARCH="intel"
-        export PYENV_ROOT="$HOME/.pyenv"
     fi
     export HOMEBREW_PREFIX="/usr/local";
     export HOMEBREW_CELLAR="/usr/local/Cellar";
@@ -24,7 +22,6 @@ elif [ "${arch_name}" = "arm64" ]; then
     export HOMEBREW_PREFIX="/opt/homebrew";
     export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
     export HOMEBREW_REPOSITORY="/opt/homebrew";
-    export PYENV_ROOT="$HOME/.pyenv"
 else
     echo "Unknown architecture: ${arch_name}"
 fi
@@ -38,7 +35,6 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X
 export PATH="/Library/TeX/texbin:$PATH"
 export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$GNUBIN:$PATH"
 export PATH="$PLENV_ROOT/bin:$PLENV_ROOT/shims:$PATH"
-export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
 export PATH="$JULIAUP_ROOT/bin:$PATH"
 export PATH="$HOME/bin:$PREFIX/bin:$PATH"
 export FORTUNE_PATH=$HOME/.fortunes/
@@ -151,8 +147,4 @@ if [ -f ~/.fzf.bash ]; then
     _fzf_compgen_path() {
         fd --follow --exclude ".git" --exclude ".venv" . "$1"
     }
-fi
-
-if [ -d "$PYENV_ROOT" ]; then
-    eval "$(pyenv init -)"
 fi
