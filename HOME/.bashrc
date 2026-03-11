@@ -53,6 +53,7 @@ export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
 export BAT_THEME="Monokai Extended Light"
 export JULIA_PKG_PRESERVE_TIERED_INSTALLED=true
+export PYTHONBREAKPOINT=ipdb.set_trace
 
 export JULIA_NUM_THREADS=1
 export NUMEXPR_NUM_THREADS=1
