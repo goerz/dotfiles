@@ -13,18 +13,15 @@ if [ "${arch_name}" = "x86_64" ]; then
     else
         export SHELL_ARCH="intel"
     fi
-    export HOMEBREW_PREFIX="/usr/local";
-    export HOMEBREW_CELLAR="/usr/local/Cellar";
-    export HOMEBREW_REPOSITORY="/usr/local/Homebrew";
-    export GNUBIN="/usr/local/opt/make/libexec/gnubin"
 elif [ "${arch_name}" = "arm64" ]; then
     export SHELL_ARCH="arm"
-    export HOMEBREW_PREFIX="/opt/homebrew";
-    export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
-    export HOMEBREW_REPOSITORY="/opt/homebrew";
 else
     echo "Unknown architecture: ${arch_name}"
 fi
+
+export HOMEBREW_PREFIX="/opt/homebrew";
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+export HOMEBREW_REPOSITORY="/opt/homebrew";
 
 export QUARTO_PYTHON=$HOME/.local/share/uv/tools/jupyterlab/bin/python
 export JULIAUP_ROOT=$HOME/.juliaup/
@@ -32,6 +29,7 @@ export PLENV_ROOT="$HOME/.plenv"
 export PREFIX="$HOME/.local"
 export EDITOR=nvim
 export GNUBIN="$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
+
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin"
 export PATH="/Library/TeX/texbin:$PATH"
 export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$GNUBIN:$PATH"
@@ -67,7 +65,6 @@ export VECLIB_MAXIMUM_THREADS=1
 # re-activate support for environment.plist
 
 
-alias rbash='/usr/local/bin/bash'
 alias ls='ls -G -h'
 alias ..='cd ..'
 alias ...='cd ../..'
