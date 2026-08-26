@@ -35,7 +35,12 @@ export PATH="/Library/TeX/texbin:$PATH"
 export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$GNUBIN:$PATH"
 export PATH="$PLENV_ROOT/bin:$PLENV_ROOT/shims:$PATH"
 export PATH="$JULIAUP_ROOT/bin:$PATH"
+
+# "Julia Apps" exist since Julia 1.12 and are installed into ~/.julia/bin. E.g. `jetls`
+export PATH="$HOME/.julia/bin:$PATH"
+
 export PATH="$HOME/bin:$PREFIX/bin:$PATH"
+
 export FORTUNE_PATH=$HOME/.fortunes/
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
