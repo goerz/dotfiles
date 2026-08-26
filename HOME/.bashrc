@@ -152,3 +152,7 @@ if [ -f ~/.fzf.bash ]; then
         fd --follow --exclude ".git" --exclude ".venv" . "$1"
     }
 fi
+
+if command -v direnv >/dev/null 2>&1; then
+    eval "$(direnv hook bash)"
+fi
