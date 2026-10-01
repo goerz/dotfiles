@@ -103,6 +103,13 @@ cppath() {
 
 if [ ! -z "$PS1" ]; then # interactive terminal
 
+    # History: append instead of overwrite, so concurrent panes do not clobber
+    # each other, and keep far more than the 500-line default.
+    shopt -s histappend
+    HISTSIZE=100000
+    HISTFILESIZE=200000
+    HISTCONTROL=ignoreboth
+
     if [ -f `brew --prefix`/etc/bash_completion ]; then
         . `brew --prefix`/etc/bash_completion
     fi
