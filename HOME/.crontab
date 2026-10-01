@@ -5,4 +5,4 @@
 # |    |    |    |    +--- day of week (0 - 7) (Sunday=0 or 7)
 # |    |    |    |    |
 # *    *    *    *    *      command to be executed
- 0    2,13  *    *    *      $HOME/.pyenv/versions/3.9.7/bin/python $HOME/.dotfiles/deploy.py --quiet
+ 0    2,13  *    *    *      $HOME/.local/bin/python $HOME/.dotfiles/deploy.py --quiet
