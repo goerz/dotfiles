@@ -37,7 +37,6 @@ export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8" # this has to be set in ~/.MacOSX/environment.plist as well
 export MANPATH="$HOMEBREW_PREFIX/share/man:$MANPATH"
 export INFOPATH="$HOMEBREW_PREFIX/share/info:${INFOPATH:-}";
-export PROC_IMAP_PROFILE=$HOME/.procimap/mailboxes.cfg
 export GNUTERM=qt
 export SYNCTEXREADER=/Applications/Skim.app/Contents/SharedSupport/displayline
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
