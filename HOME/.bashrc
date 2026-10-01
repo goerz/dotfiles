@@ -15,7 +15,7 @@ export PREFIX="$HOME/.local"
 export EDITOR=nvim
 export GNUBIN="$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export PATH="/Library/TeX/texbin:$PATH"
 export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$GNUBIN:$PATH"
 export PATH="$JULIAUP_ROOT/bin:$PATH"
