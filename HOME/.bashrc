@@ -5,20 +5,6 @@
 # A non-interative shell (e.g. running a shell script) reads only the file
 # given in $BASH_ENV, if defined.
 
-arch_name="$(uname -m)"
-
-if [ "${arch_name}" = "x86_64" ]; then
-    if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
-        export SHELL_ARCH="rosetta2"
-    else
-        export SHELL_ARCH="intel"
-    fi
-elif [ "${arch_name}" = "arm64" ]; then
-    export SHELL_ARCH="arm"
-else
-    echo "Unknown architecture: ${arch_name}"
-fi
-
 export HOMEBREW_PREFIX="/opt/homebrew";
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
 export HOMEBREW_REPOSITORY="/opt/homebrew";
@@ -122,16 +108,9 @@ if [ ! -z "$PS1" ]; then # interactive terminal
     #if [ $TERM == 'xterm' ]; then
         #export TERM='xterm-256color'
     #fi
-    if [ "$SHELL_ARCH" = "rosetta2" ]; then
-        export PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h(r):\w> "
-        if [ "\$(type -t __git_ps1)" ]; then
-            PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h(r)\$(__git_ps1 ' %s'):\w> "
-        fi
-    else
-        export PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h:\w> "
-        if [ "\$(type -t __git_ps1)" ]; then
-            PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h\$(__git_ps1 ' %s'):\w> "
-        fi
+    export PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h:\w> "
+    if [ "\$(type -t __git_ps1)" ]; then
+        PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h\$(__git_ps1 ' %s'):\w> "
     fi
     source $HOME/.bash/copy.sh
 else
