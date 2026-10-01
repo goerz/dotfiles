@@ -17,7 +17,16 @@
      ls = ls-files
      serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
      fetch = fetch -v
-     up = "!git remote update -p; git merge --ff-only @{u}"
+     up = "!f() { \
+         git remote update -p; \
+         if git merge --ff-only @{u} 2>/dev/null; then \
+             true; \
+         elif pr_num=$(gh pr view --json number --jq .number 2>/dev/null); then \
+             gh pr checkout \"$pr_num\"; \
+         else \
+             git merge --ff-only @{u}; \
+         fi; \
+     }; f"
      graph = "log --graph --decorate --pretty=format:'%Creset%h:%C(bold Blue)%d%Creset %an %cd (%cr)%n%s%n' --date=short --exclude '*/gh-pages'"
 [color]
     ui = true
