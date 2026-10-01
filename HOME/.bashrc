@@ -25,6 +25,12 @@ export PATH="$HOME/.julia/bin:$PATH"
 
 export PATH="$HOME/bin:$PREFIX/bin:$PATH"
 
+# Node.js is managed by fnm: this puts node/npm/npx on the PATH, and switches
+# versions on `cd`, per .node-version/.nvmrc/package.json
+if command -v fnm >/dev/null 2>&1; then
+    eval "$(fnm env --use-on-cd --shell bash)"
+fi
+
 export FORTUNE_PATH=$HOME/.fortunes/
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
