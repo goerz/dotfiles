@@ -5,6 +5,7 @@
 # requires Python >= 2.6
 
 import os
+import sys
 
 # bootstrap code to get the dotfiles.py module from the master branch
 os.chdir(os.path.split(os.path.realpath(__file__))[0])
@@ -30,6 +31,11 @@ def deploy(options):
     dotfiles.deploy_repo('git@ssh.michaelgoerz.net:mutt', '.mutt',
                          options)
     dotfiles.run_duti(options.quiet)
-    dotfiles.set_crontab(options.quiet)
+    # Installing the crontab from within a cron job triggers a macOS
+    # "Python wants to administer your computer" prompt for every new
+    # Python binary. Cron already runs the installed crontab, so only
+    # (re-)install it from an interactive terminal.
+    if sys.stdin.isatty():
+        dotfiles.set_crontab(options.quiet)
 
 dotfiles.main(deploy)
