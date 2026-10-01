@@ -52,6 +52,7 @@
     trustExitCode = true
 [push]
     default = tracking
+    useForceIfIncludes = true
 [diff "jupyternotebook"]
     command = git-nbdiffdriver diff
 [merge "jupyternotebook"]
