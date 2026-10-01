@@ -123,6 +123,25 @@ if [ ! -z "$PS1" ]; then # interactive terminal
         PS1="\$(if [ \$? == 0 ]; then echo \\[\\e[0\;32m\\]●\\[\\e[m\\]; else echo \\[\\e[0\;31m\\]●\\[\\e[m\\]; fi) \u@\h\$(__git_ps1 ' %s'):\w> "
     fi
     source $HOME/.bash/copy.sh
+
+    # Warn if macOS has renamed the Bonjour name after a (spurious) conflict,
+    # which appends a number, e.g. host -> host-4
+    _local_host_name="$(scutil --get LocalHostName 2>/dev/null)"
+    _base_name="$_local_host_name"
+    if [[ $_local_host_name =~ -[0-9]+$ ]]; then
+        _base_name="${_local_host_name%-*}"
+        echo "WARNING: Bonjour name is $_local_host_name.local. Fix with: sudo scutil --set LocalHostName $_base_name" >&2
+    fi
+    # Warn if the hostname (as in the prompt) doesn't match the Bonjour name,
+    # e.g. after renaming the Mac in System Settings, which leaves HostName
+    # alone, or with HostName unset and the router supplying a stale name
+    if [ -n "$_base_name" ]; then
+        _short_host_name="$(hostname -s)"
+        if [ "$(echo "$_short_host_name" | tr '[:upper:]' '[:lower:]')" != "$(echo "$_base_name" | tr '[:upper:]' '[:lower:]')" ]; then
+            echo "WARNING: Hostname is $_short_host_name, but Bonjour name is $_base_name.local. Fix with: sudo scutil --set HostName $_base_name" >&2
+        fi
+    fi
+    unset _local_host_name _base_name _short_host_name
 else
 
     export SHELL_NONINTERACTIVE=1
