@@ -148,8 +148,8 @@ else
 
 fi
 
-if [ -f ~/.fzf.bash ]; then
-    source ~/.fzf.bash
+if command -v fzf >/dev/null 2>&1; then
+    eval "$(fzf --bash)"
     export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude .venv'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
     export FZF_DEFAULT_OPTS="--ansi"
