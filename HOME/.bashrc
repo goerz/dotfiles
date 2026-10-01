@@ -54,6 +54,9 @@ export OMP_NUM_THREADS=1
 export MKL_NUM_THREADS=1
 export VECLIB_MAXIMUM_THREADS=1
 
+# Use a skill instead, see https://github.com/GroupTherapyOrg/SpaceStation.jl/blob/main/COLLAB.md#agentsmd-stanza
+export SPACESTATION_AGENTS_MD=0
+
 # Note on ~/.MacOSX/environment.plist post Mountain Lion:
 # EnvPane (https://github.com/hschmidt/EnvPane) must be installed in order to
 # re-activate support for environment.plist
