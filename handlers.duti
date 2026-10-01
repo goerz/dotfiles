@@ -48,3 +48,6 @@ com.neovide.neovide                public.source-code                 editor
 com.neovide.neovide                public.text                        editor
 com.neovide.neovide                public.xml                         editor
 edu.ucsd.cs.mmccrack.bibdesk       bib                                all
+com.neovide.neovide                net.daringfireball.markdown        all
+com.neovide.neovide                jl                                 all
+com.microsoft.VSCode               ipynb                              all
