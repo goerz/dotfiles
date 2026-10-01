@@ -43,7 +43,7 @@
     cmd = extMerge $BASE $LOCAL $REMOTE $MERGED
    trustExitCode = false
 [diff "pdf"]
-  textconv = pdf2txt
+  textconv = pdf2txt.py
 [push]
     default = tracking
     useForceIfIncludes = true
