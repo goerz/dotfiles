@@ -42,7 +42,11 @@ export GNUTERM=qt
 export SYNCTEXREADER=/Applications/Skim.app/Contents/SharedSupport/displayline
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+# SSH keys are served by gpg-agent (enable-ssh-support in gpg-agent.conf),
+# except in an SSH session that forwards the client's agent (ssh -A)
+if [ -f "$HOME/.gnupg/gpg-agent.conf" ] && { [ -z "$SSH_CONNECTION" ] || [ -z "$SSH_AUTH_SOCK" ]; }; then
+    export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+fi
 export BAT_THEME="Monokai Extended Light"
 export JULIA_PKG_PRESERVE_TIERED_INSTALLED=true
 export PYTHONBREAKPOINT=ipdb.set_trace
