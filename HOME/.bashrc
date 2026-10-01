@@ -11,7 +11,6 @@ export HOMEBREW_REPOSITORY="/opt/homebrew";
 
 export QUARTO_PYTHON=$HOME/.local/share/uv/tools/jupyterlab/bin/python
 export JULIAUP_ROOT=$HOME/.juliaup/
-export PLENV_ROOT="$HOME/.plenv"
 export PREFIX="$HOME/.local"
 export EDITOR=nvim
 export GNUBIN="$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
@@ -19,7 +18,6 @@ export GNUBIN="$HOMEBREW_PREFIX/opt/make/libexec/gnubin"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/usr/X11R6/bin:/usr/X11/bin"
 export PATH="/Library/TeX/texbin:$PATH"
 export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$GNUBIN:$PATH"
-export PATH="$PLENV_ROOT/bin:$PLENV_ROOT/shims:$PATH"
 export PATH="$JULIAUP_ROOT/bin:$PATH"
 
 # "Julia Apps" exist since Julia 1.12 and are installed into ~/.julia/bin. E.g. `jetls`
@@ -35,7 +33,6 @@ export MANPATH="$HOMEBREW_PREFIX/share/man:$MANPATH"
 export INFOPATH="$HOMEBREW_PREFIX/share/info:${INFOPATH:-}";
 export PROC_IMAP_PROFILE=$HOME/.procimap/mailboxes.cfg
 export GNUTERM=wxt
-export WORKON_HOME=$HOME/.virtualenvs
 export SYNCTEXREADER=/Applications/Skim.app/Contents/SharedSupport/displayline
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export GPG_TTY="$(tty)"
