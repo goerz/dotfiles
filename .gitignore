@@ -2,3 +2,7 @@
 dotfiles.py
 .HOME.links
 .HOME.old_links
+
+# Machine-specific, kept out of the repo on purpose
+HOME/.ssh/
+HOME/bin/sshproxy
